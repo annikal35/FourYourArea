@@ -173,10 +173,20 @@ def mousePressed(app, event):
             for cube in app.boardlist:
                 if (cube.x+1.5*cube.c,cube.y-0.5*cube.d <= event.y and 
                      event.y <=cube.x+1.5*cube.c,cube.y+1.5*cube.d):
-                     currColor = app.getUserInput('What color of rock do you want to put?')
-                     cube.color = currColor
-                     if currColor == ''
-        # elif () and (self.x+1.5*self.c,self.y-0.5*self.d < event.y)
+                    currColor = app.getUserInput('What color of \
+                                                   rock do you want to put?')
+                    cube.color = currColor
+                    if currColor == 'blue':
+                        app.user.blue -=1
+                    elif currColor == 'red':
+                        app.user.red -=1
+                    elif currColor == 'green':
+                        app.user.green -=1
+                    elif currColor == 'pink':
+                        app.user.pink -=1
+                    else:
+                        app.showMessage('Please place within given color!')
+
         
 
 def redrawAll(app, canvas):
