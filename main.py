@@ -155,7 +155,7 @@ def mousePressed(app, event):
             app.user.numGreen = random.randint(0,8)
             app.user.numPink = random.randint(0,8)
 
-        elif (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
+        if (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
                                                         event.y<=332):
             rockNum = int(app.getUserInput('How many rocks do you want?'))
             if rockNum >3 or rockNum <1:
@@ -169,30 +169,58 @@ def mousePressed(app, event):
                 app.user.green += currGreen
                 currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
                 app.user.pink += currPink
-        else:
-            i  = 0
-            while i < 52:
-                currCube = app.boardlist[i]
-                if ((currCube.x <= event.x <= currCube.x + 90) and 
-                   (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
+        i  = 0
+        while i < 52:
+            currCube = app.boardlist[i]
+            if ((currCube.x <= event.x <= currCube.x + 90) and 
+                (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
+                if (((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50))):
+                    continue
+                else:
                     currColor = app.getUserInput('What color of \
-                                                   rock do you want to put?')
-                    if currColor == 'blue':
-                        currCube.color = 'blue'
-                        app.user.blue -=1
+                                                rock do you want to put?')
+                    if currCube.color != 'white':
+                        app.showMessage('This area has been already placed')
+                        break
+                    elif currColor == 'blue':
+                        if app.user.blue == 0:
+                            app.showMessage("You don't have blue anymore")
+                        else:
+                            currCube.color = 'blue'
+                            app.user.blue -=1
+                        break
                     elif currColor == 'red':
-                        currCube.color = 'red'
-                        app.user.red -=1
+                        if app.user.red == 0:
+                            app.showMessage("You don't have red anymore")
+                        else:
+                            currCube.color = 'red'
+                            app.user.red -=1
+                        break
                     elif currColor == 'green':
-                        currCube.color = 'green'
-                        app.user.green -=1
+                        if app.user.green == 0:
+                            app.showMessage("You don't have green anymore")
+                        else:
+                            currCube.color = 'green'
+                            app.user.green -=1
+                        break
                     elif currColor == 'pink':
-                        currCube.color = 'pink'
-                        app.user.pink -=1
+                        if app.user.pink == 0:
+                            app.showMessage("You don't have pink anymore")
+                        else:
+                            currCube.color = 'pink'
+                            app.user.pink -=1
+                        break
                     else:
                         app.showMessage('Please place within given color!')
                         break
-                i +=1
+            i +=1
 
                 
 
