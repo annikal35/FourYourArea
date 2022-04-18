@@ -170,22 +170,31 @@ def mousePressed(app, event):
                 currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
                 app.user.pink += currPink
         else:
-            for cube in app.boardlist:
-                if (cube.x+1.5*cube.c,cube.y-0.5*cube.d <= event.y and 
-                     event.y <=cube.x+1.5*cube.c,cube.y+1.5*cube.d):
+            i  = 0
+            while i < 52:
+                currCube = app.boardlist[i]
+                if ((currCube.x <= event.x <= currCube.x + 90) and 
+                   (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
                     currColor = app.getUserInput('What color of \
                                                    rock do you want to put?')
-                    cube.color = currColor
                     if currColor == 'blue':
+                        currCube.color = 'blue'
                         app.user.blue -=1
                     elif currColor == 'red':
+                        currCube.color = 'red'
                         app.user.red -=1
                     elif currColor == 'green':
+                        currCube.color = 'green'
                         app.user.green -=1
                     elif currColor == 'pink':
+                        currCube.color = 'pink'
                         app.user.pink -=1
                     else:
                         app.showMessage('Please place within given color!')
+                        break
+                i +=1
+
+                
 
         
 
