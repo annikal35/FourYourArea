@@ -31,13 +31,13 @@ def createBoard(app):
     cubelist = []
     for i in range(g):
         if i <5:
-            x = app.width *((5.0-(i*0.38))/13)
-            y = app.height*((0.5+1.02*i)/11)
+            x = app.width *((5.3-(i*0.31))/13)
+            y = app.height*((0.5+0.88*i)/11)
         else:
-            x = app.width *((5.0-(g-i-1)*0.38)/13)
-            y = app.height*((0.5+1.02*i)/11)
+            x = app.width *((5.3-(g-i-1)*0.31)/13)
+            y = app.height*((0.5+0.88*i)/11)
         for j in range(0,k,3):
-            cube = BoardforLocal(x+j*30, y+50,30,50,'white')
+            cube = BoardforLocal(x+j*25, y+43,25,43,'white')
             cubelist.append(cube)
         if i <4:
             k +=3
