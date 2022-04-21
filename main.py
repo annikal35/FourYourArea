@@ -1,3 +1,4 @@
+from turtle import color
 from board import *
 from cmu_112_graphics import *
 import random
@@ -16,6 +17,7 @@ class User():
         self.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
         self.r = 25
         self.score = 0
+        self.currSameColor = 0
         # self.i = random.randint(0,20)
 
     def frontCard(self,canvas):
@@ -146,6 +148,58 @@ def appStarted(app):
     app.user = User()
     app.boardlist = createBoard(app)
 
+def belowAdjacentCubes(app,cube,index):
+    redColor = blueColor = greenColor = pinkColor = 0
+    colorList = []
+    left = app.boardlist[index-1]
+    right = app.boardlist[index+1]
+    adjacentY = cube.y+(1.02/11)+50
+    for cubeElem in app.boardlist:
+        if ((cubeElem.x == cube.x-(0.8/28)+30) and 
+                               (cubeElem.y == adjacentY)):
+            bottomColor = cubeElem.color
+        if ((cubeElem.x == cube.x-(0.8/28)) and 
+                               (cubeElem.y == adjacentY)):
+            bottomLeftColor = cubeElem.color
+        if ((cubeElem.x == cube.x-(1.6/28)+90) and 
+                               (cubeElem.y == cube.y+(1.02*2/11)+50)):
+            belowColor = cubeElem.color
+        if ((cubeElem.x == cube.x-(0.8/28)+90) and 
+                               (cubeElem.y == adjacentY)):
+            anotherbottomColor = cubeElem.color
+    # 1) left adjacent three 
+    if ((cube.color != 'white') and (left.color!='white') and 
+       (bottomColor!='white') and (bottomLeftColor!='white')):
+       colorList.append(cube.color)
+       colorList.append(left.color)
+       colorList.append(bottomColor)
+       colorList.append(bottomLeftColor)
+       if 1 < colorList.count("red") < 5:
+           redColor += colorList.count("red")
+       if 1 < colorList.count("blue") < 5:
+           blueColor += colorList.count("blue")
+       if 1 < colorList.count("green") < 5:
+           greenColor += colorList.count("green")
+       if 1 < colorList.count("pink") < 5:
+           pinkColor += colorList.count("pink")
+    # 2) below adjacent three
+    # if ((cube.color != 'white') and (belowColor!='white') and 
+    #    (bottomColor!='white') and (anotherbottomColor!='white')):
+    # 3) right adjacent three
+
+    if redColor == blueColor == greenColor == pinkColor == 1:
+        return 1
+    elif ((redColor == 3) or (blueColor == 3) or 
+           (greenColor == 3) or (pinkColor == 3)):
+           return 3
+    elif ((redColor == 4) or (blueColor == 4) or 
+           (greenColor == 4) or (pinkColor == 4)):
+           return 4
+    else:
+        return 2
+
+
+
 def mousePressed(app, event):
         if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
             app.user.placingCard = getRandomPlacingScore()
@@ -195,31 +249,31 @@ def mousePressed(app, event):
                         else:
                             currCube.color = 'blue'
                             app.user.blue -=1
-                        break
+                            # if i <= 29:
+                            #     app.user.score += belowAdjacentCubes(app,currCube,i)
+                                # app.user.score += aboveAdjacentCubes(app,currCube,i)
+                            # else:
+
                     elif currColor == 'red':
                         if app.user.red == 0:
                             app.showMessage("You don't have red anymore")
                         else:
                             currCube.color = 'red'
                             app.user.red -=1
-                        break
                     elif currColor == 'green':
                         if app.user.green == 0:
                             app.showMessage("You don't have green anymore")
                         else:
                             currCube.color = 'green'
                             app.user.green -=1
-                        break
                     elif currColor == 'pink':
                         if app.user.pink == 0:
                             app.showMessage("You don't have pink anymore")
                         else:
                             currCube.color = 'pink'
                             app.user.pink -=1
-                        break
                     else:
                         app.showMessage('Please place within given color!')
-                        break
             i +=1
 
                 
