@@ -50,39 +50,37 @@ def appStarted(app):
     app.image2 = app.loadImage('rockbag.png')
     app.rockBag = app.scaleImage(app.image2, 0.1)
     app.buttons = [
-      Button(270, 680, 520, 750, "STOP!", coverCard1(app)),
-      Button(1250, 680, 1500, 750, "STOP!",coverCard2(app))
+      Button(270, 680, 520, 750, "STOP!"),
+      Button(1250, 680, 1500, 750, "STOP!")
     #   Button(insert, params, here, pls, "Goodbye!", thisIsAnotheFunction),
    ]
     app.status = 'Player 1'
 
-def coverCard1(app):
-    app.status = 'Player 2'
-    app.player1.cardColor = 'black'
-    app.player1.bluecir = 'black'
-    app.player1.redcir = 'black'
-    app.player1.greencir = 'black'
-    app.player1.pinkcir = 'black'
-    app.player2.cardColor = 'white'
-    app.player2.bluecir = 'blue'
-    app.player2.redcir = 'red'
-    app.player2.greencir = 'green'
-    app.player2.pinkcir = 'pink'
-
-def coverCard2(app):
-    app.status = 'Player 1'
-    app.player2.cardColor = 'black'
-    app.player2.bluecir = 'black'
-    app.player2.redcir = 'black'
-    app.player2.greencir = 'black'
-    app.player2.pinkcir = 'black'
-    app.player1.cardColor = 'white'
-    app.player1.bluecir = 'blue'
-    app.player1.redcir = 'red'
-    app.player1.greencir = 'green'
-    app.player1.pinkcir = 'pink'
-
 def mousePressed(app, event):
+    if (270 <= event.x <=520) and (680 <= event.y <=750):
+        app.status = 'Player 2'
+        app.player1.cardColor = 'black'
+        app.player1.bluecir = 'black'
+        app.player1.redcir = 'black'
+        app.player1.greencir = 'black'
+        app.player1.pinkcir = 'black'
+        app.player2.cardColor = 'white'
+        app.player2.bluecir = 'blue'
+        app.player2.redcir = 'red'
+        app.player2.greencir = 'green'
+        app.player2.pinkcir = 'pink'
+    if (1250 <= event.x <=1500) and (680 <= event.y <=750):
+        app.status = 'Player 1'
+        app.player2.cardColor = 'black'
+        app.player2.bluecir = 'black'
+        app.player2.redcir = 'black'
+        app.player2.greencir = 'black'
+        app.player2.pinkcir = 'black'
+        app.player1.cardColor = 'white'
+        app.player1.bluecir = 'blue'
+        app.player1.redcir = 'red'
+        app.player1.greencir = 'green'
+        app.player1.pinkcir = 'pink'
         # if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
         #     app.user.placingCard = getRandomPlacingScore()
         #     app.user.pickingCard = getRandomPickingScore()
@@ -157,8 +155,7 @@ def mousePressed(app, event):
         #                 app.showMessage('Please place within given color!')
         #                 break
         #     i +=1
-        for button in app.buttons:
-            button.click(event.x, event.y)
+
 
 def redrawAll(app, canvas):
     canvas.create_rectangle(0,0,app.width, app.height,

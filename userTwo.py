@@ -11,6 +11,11 @@ class UserTwo():
         self.placingCard = {'1':0,'2':0,'3':0,'4':0}
         self.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
         self.r = 25
+        self.cardColor = 'white'
+        self.bluecir = 'blue'
+        self.redcir = 'red'
+        self.greencir = 'green'
+        self.pinkcir = 'pink'
         self.r2 = 22.5
         self.score = 0
 
@@ -19,29 +24,29 @@ class UserTwo():
                            font = 'Helvetica 30 bold italic')
 
     def frontCard(self,canvas):
-        canvas.create_rectangle(1150,100,1310,350,fill='white', 
+        canvas.create_rectangle(1150,100,1310,350,fill=self.cardColor, 
                                 outline='black', width = 5)
         canvas.create_oval(1190-self.r2, 140-self.r2, 1190+self.r2, 140+self.r2, 
-                           fill='blue', outline='blue')
+                           fill= self.bluecir, outline= self.bluecir)
         canvas.create_text(1260,140, text = f'{self.numBlue}', fill='black',
                            font = 'Helvetica 30 bold')
         canvas.create_oval(1190-self.r2, 200-self.r2, 1190+self.r2, 200+self.r2, 
-                           fill='red', outline='red')
+                           fill=self.redcir, outline=self.redcir)
         canvas.create_text(1260,200, text = f'{self.numRed}', fill='black',
                            font = 'Helvetica 30 bold')
         canvas.create_oval(1190-self.r2, 260-self.r2, 1190+self.r2, 260+self.r2, 
-                           fill='green', outline='green')
+                           fill=self.greencir, outline=self.greencir)
         canvas.create_text(1260,260, text = f'{self.numGreen}', fill='black',
                            font = 'Helvetica 30 bold')
         canvas.create_oval(1190-self.r2, 320-self.r2, 1190+self.r2, 320+self.r2, 
-                           fill='pink', outline = 'pink')
+                           fill=self.pinkcir, outline = self.pinkcir)
         canvas.create_text(1260,320, text = f'{self.numPink}', fill='black',
                            font = 'Helvetica 30 bold')
         
     
     def backCard(self, canvas):
         canvas.create_rectangle(1340,100,1500,350, outline='black',
-                                fill = 'white', width=5)
+                                fill =self.cardColor, width=5)
         canvas.create_text(1380,120, text='Picking', fill='black',
                            font = 'Times 13 bold underline')
         firstScore = self.pickingCard['1']
