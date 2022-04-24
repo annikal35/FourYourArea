@@ -138,8 +138,8 @@ def belowAdjforBottomAI(app, cube, index):
                         anotherbottomColor, bottomColor,
                         bottomLeftColor,bottomRightColor,[])
         elif index == 46:
-            colorList = checkAt46(cube,left.color,bottomLeftColor, 
-                        bottomColor,[])
+            colorList = checkAt46(cube,left.color,right.color,
+               anotherbottomColor,bottomColor,bottomLeftColor,[])
         elif index == 47:
             colorList = belowRightCol(cube,left.color,bottomLeftColor, 
                         bottomColor,[])

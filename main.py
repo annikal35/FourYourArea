@@ -30,6 +30,7 @@ def mousePressed(app, event):
         app.status = 'AI'
     
     if app.status == 'User':
+        app.AI.blue = app.AI.red = app.AI.green = app.AI.pink = 0
         if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
             app.user.placingCard = getRandomPlacingScore()
             app.user.pickingCard = getRandomPickingScore()
@@ -37,7 +38,6 @@ def mousePressed(app, event):
             app.user.numRed = random.randint(0,4)
             app.user.numGreen = random.randint(0,4)
             app.user.numPink = random.randint(0,4)
-            app.user.blue = app.user.red = app.user.green = app.user.pink = 0
 
         if (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
                                                         event.y<=332):
@@ -56,7 +56,6 @@ def mousePressed(app, event):
         i  = 0
         for currCube in app.boardlist:
             index = app.boardlist.index(currCube)
-            # currCube = app.boardlist[i]
             if ((currCube.x <= event.x <= currCube.x + 90) and 
                 (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
                 if (((currCube.x < event.x < currCube.x+1.5*30) and 
@@ -81,6 +80,7 @@ def mousePressed(app, event):
                             currCube.color = 'blue'
                             app.user.blue -=1
                             app.coloredCube.append(currCube.color)
+                            print(app.coloredCube)
                             if len(app.coloredCube) >= 4:
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
@@ -118,7 +118,8 @@ def mousePressed(app, event):
                             currCube.color = 'red'
                             app.user.red -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) % 4 == 0:
+                            print(app.coloredCube)
+                            if len(app.coloredCube) >= 4:
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
@@ -155,7 +156,8 @@ def mousePressed(app, event):
                             currCube.color = 'green'
                             app.user.green -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) % 4 == 0:
+                            print(app.coloredCube)
+                            if len(app.coloredCube) >= 4:
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
@@ -192,7 +194,8 @@ def mousePressed(app, event):
                             currCube.color = 'pink'
                             app.user.pink -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) % 4 == 0:
+                            print(app.coloredCube)
+                            if len(app.coloredCube) >= 4:
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
@@ -226,18 +229,22 @@ def mousePressed(app, event):
                     else:
                         app.showMessage('Please place within given color!')
     else:
-        app.AI.placingCard = getRandomPlacingScore()
-        app.AI.pickingCard = getRandomPickingScore()
-        app.AI.blue = app.AI.red = app.AI.green = app.AI.pink = 0
-        app.AI.numBlue = random.randint(0,4)
-        app.AI.numRed = random.randint(0,4)
-        app.AI.numGreen = random.randint(0,4)
-        app.AI.numPink = random.randint(0,4)
+        app.user.blue = app.user.red = app.user.green = app.user.pink = 0
+        if app.round ==1:
+            app.AI.placingCard = getRandomPlacingScore()
+            app.AI.pickingCard = getRandomPickingScore()
+            app.AI.numBlue = random.randint(0,4)
+            app.AI.numRed = random.randint(0,4)
+            app.AI.numGreen = random.randint(0,4)
+            app.AI.numPink = random.randint(0,4)
+        # app.AI.numBlue = random.randint(0,4)
+        # app.AI.numRed = random.randint(0,4)
+        # app.AI.numGreen = random.randint(0,4)
+        # app.AI.numPink = random.randint(0,4)
         while((app.AI.blue <= app.AI.numBlue) and(app.AI.red<=app.AI.numRed)and
           (app.AI.green <= app.AI.numGreen) and (app.AI.pink <= app.AI.numPink)):
             app.AI.rockNumAI += random.randint(1,3)
-        # rockNumAI += random.randint(1,3)
-            currBlueAI = random.randint(0, app.AI.rockNumAI)
+            currBlueAI = random.randint(1, app.AI.rockNumAI)
             app.AI.blue += currBlueAI
             currRedAI = random.randint(0,app.AI.rockNumAI-currBlueAI)
             app.AI.red += currRedAI
@@ -273,14 +280,10 @@ def gameover(app):
             return False
     return True
 
-def isWin(state, currCube, userScore,app,color):
-    print(len(state))
-    print(currCube)
-    print(userScore)
-    print(color)
+def isWin(currCube, userScore,app,color):
     index = app.boardlist.index(currCube)
     app.AI.coloredCube.append(color)
-    if len(app.AI.coloredCube) % 4 == 0:
+    if len(app.AI.coloredCube) >=4:
         if 0 <= index <= 3:
             app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
@@ -305,10 +308,10 @@ def isWin(state, currCube, userScore,app,color):
     
     return app.AI.score > userScore
 
-def isLost(state, currCube, userScore,app,color):
+def isLost(currCube, userScore,app,color):
     index = app.boardlist.index(currCube)
     app.AI.coloredCube.append(color)
-    if len(app.AI.coloredCube) % 4 == 0:
+    if len(app.AI.coloredCube) >=4:
         if 0 <= index <= 3:
             app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
@@ -344,61 +347,83 @@ def putColor(app):
         res.append("pink")
     currColor = random.choice(res)
     app.AI.colors[currColor] -=1
-    print(res, currColor)
     return currColor
-
-# def noRocks(app):
-#     if (app.AI.blue == 0 and app.AI.green == 0 and app.AI.red == 0 and 
-#        app.AI.pink == 0):
-#         return True
-#     return False
 
 def minimax(state,currCube,depth, maxPlayer,app):
     if (depth == 0) or gameover(app):
-        score = evaluate(state,currCube,app)
+        score = evaluate(currCube,app)
         return score
     # print(app.boardlist)
-    newBoardlist = copy.copy(app.boardlist)
+    # newBoardlist = copy.copy(app.boardlist)
     # print(newBoardlist)
-    possibleMoves = getPossibleMoves(state)
+    # possibleMoves = getPossibleMoves(state)
     if maxPlayer:
         maxValue = float('-inf')
         for move in app.boardlist: # possibleMoves = number of uncolored area
-            # print(move)
+            newBoardlist = copy.deepcopy(app.boardlist)
             if isLegal(app, move):
                 # index = app.boardlist.index(move)
                 move.color = putColor(app)
-                if currCube == None:
-                    currCube = move
-                # newBoardlist = copy.deepcopy(app.boardlist)
+                # if currCube == None:
+                currCube = move
+                # newBoardlist = copy.copy(app.boardlist)
                 currValue = minimax(newBoardlist,currCube,depth-1,False,app)
-                print(currValue)
-                maxValue = max(maxValue,currValue)
+                if currValue > maxValue:
+                    maxValue = currValue
+                    if move.color == 'blue':
+                        app.AI.blue -=1
+                    elif move.color == 'red':
+                        app.AI.red -=1
+                    elif move.color == 'green':
+                        app.AI.green -=1
+                    else:
+                        app.AI.pink -=1
+                else:
+                    move.color = 'white'
+                # maxValue = max(maxValue,currValue)
         return maxValue
     else:
         minValue = float('inf')
         for move in app.boardlist:
             # print(move)
+            newBoardlist = copy.deepcopy(app.boardlist)
             if isLegal(app, move):
                 # index = app.boardlist.index(move)
                 move.color = putColor(app)
-                if currCube == None:
-                    currCube = move
-                # newBoardlist = copy.deepcopy(app.boardlist)
+                # if currCube == None:
+                currCube = move
                 currValue = minimax(newBoardlist,currCube,depth-1,True,app)
-                minValue = min(currValue, minValue)
+                if currValue < minValue:
+                    minValue = currValue
+                    if move.color == 'blue':
+                        app.AI.blue -=1
+                    elif move.color == 'red':
+                        app.AI.red -=1
+                    elif move.color == 'green':
+                        app.AI.green -=1
+                    else:
+                        app.AI.pink -=1
+                else:
+                    move.color = 'white'
+                # minValue = min(currValue, minValue)
         return minValue
 
-def evaluate(state,currCube,app):
+def evaluate(currCube,app):
     userScore = app.user.score
     color = currCube.color
-    if isWin(state, currCube,userScore,app,color):
+    if isWin(currCube,userScore,app,color):
         return app.AI.score
-    elif isLost(state,currCube,userScore,app,color):
+    elif isLost(currCube,userScore,app,color):
         return app.AI.score
     else:
         return 0
 
+# def finishTheGame(app):
+#     if app.round >= 4:
+#         if app.user.score > app.AI.score:
+#             app.showMessage("Game Over! You are the winner!")
+#         else:
+#             app.showMessage("Game Over! AI player wins!")
 
 
 def redrawAll(app, canvas):
@@ -426,6 +451,7 @@ def redrawAll(app, canvas):
         button.render(canvas)
     canvas.create_image(850,230,image=ImageTk.PhotoImage(app.cardDeck))
     canvas.create_image(1100,230,image=ImageTk.PhotoImage(app.rockBag))
+    # finishTheGame(app)
     # cardDeck image is from 
     # https://clipartpng.com/?2722,deck-of-cards-png-clip-art-image
     # rockbag image is from https://www.pngwing.com/en/free-png-zgoig/download
