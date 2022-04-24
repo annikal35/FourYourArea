@@ -1,5 +1,25 @@
 import random
 
+class AI():
+    def __init__(self):
+        self.blue = 0
+        self.red = 0
+        self.green = 0
+        self.pink = 0
+        self.numBlue = 0
+        self.numRed = 0
+        self.numGreen = 0
+        self.numPink = 0
+        self.placingCard = {'1':0,'2':0,'3':0,'4':0}
+        self.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
+        self.r = 25
+        self.score = 0
+        self.currSameColor = 0
+        self.coloredCube = []
+        self.colors = {'blue': self.blue, 'red':self.red, 
+                        'green':self.green,'pink':self.pink}
+        self.rockNumAI = 0
+
 class User():
     def __init__(self):
         self.blue = 0

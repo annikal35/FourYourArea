@@ -1,9 +1,12 @@
 from board import *
 from userforAI import *
 from cmu_112_graphics import *
-from TopScoring import *
-from checkBelowForBottom import *
+from TopScoringAI import *
+from BottomScoringAI import *
+from minimax import *
+from buttons import *
 import random
+import copy
 
 def appStarted(app):
     app.image1 = app.loadImage('Deck_of_Cards.png')
@@ -11,160 +14,30 @@ def appStarted(app):
     app.image2 = app.loadImage('rockbag.png')
     app.rockBag = app.scaleImage(app.image2, 0.15)
     app.user = User()
+    app.AI = AI()
     app.boardlist = createBoard(app)
     app.coloredCube = []
-
-def belowAdjforBottom(app, cube, index):
-    redColor = blueColor = greenColor = pinkColor = 0
-    colorList = []
-    bottomColor = bottomLeftColor = belowTwoColor = ''
-    anotherbottomColor = bottomRightColor = ''
-    if 22 <= index <= 29:
-        if index <= 28:
-            anotherbottomColor = app.boardlist[index+8].color
-            right = app.boardlist[index+1]
-            if index <=27:
-                bottomRightColor = app.boardlist[index+9].color
-                if index == 22:
-                    colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
-                                bottomRightColor,[])
-
-        if 23 <= index <= 29:
-            bottomColor = app.boardlist[index+7]
-            left = app.boardlist[index-1]
-            if 24 <= index:
-                bottomLeftColor = app.boardlist[index+6].color
-                if index == 23:
-                    colorList = checkAt23(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomRightColor,[])
-                if index == 28:
-                    colorList = checkAt28(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomLeftColor,[])
-                if index == 29:
-                    colorList = belowRightCol(cube,left.color,bottomLeftColor, 
-                                bottomColor,[])
-        redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
-                                    redColor, blueColor, greenColor, pinkColor)
-
-    if 30 <= index <= 36:
-        if index <= 35:
-            anotherbottomColor = app.boardlist[index+7].color
-            right = app.boardlist[index+1]
-            if index <=34:
-                bottomRightColor = app.boardlist[index+8].color
-                if index == 30:
-                    colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
-                                bottomRightColor,[])
-
-        if 31 <= index <= 36:
-            bottomColor = app.boardlist[index+6]
-            left = app.boardlist[index-1]
-            if 32 <= index:
-                bottomLeftColor = app.boardlist[index+6].color
-                if index == 31:
-                    colorList = checkAt23(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomRightColor,[])
-                if index == 35:
-                    colorList = checkAt28(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomLeftColor,[])
-                if index == 36:
-                    colorList = belowRightCol(cube,left.color,bottomLeftColor, 
-                                bottomColor,[])
-        redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
-                                    redColor, blueColor, greenColor, pinkColor)
-    
-    if 37 <= index <= 42:
-        if index <= 35:
-            anotherbottomColor = app.boardlist[index+7].color
-            right = app.boardlist[index+1]
-            if index <=34:
-                bottomRightColor = app.boardlist[index+8].color
-                if index == 30:
-                    colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
-                                bottomRightColor,[])
-
-        if 31 <= index <= 36:
-            bottomColor = app.boardlist[index+6]
-            left = app.boardlist[index-1]
-            if 32 <= index:
-                bottomLeftColor = app.boardlist[index+6].color
-                if index == 31:
-                    colorList = checkAt23(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomRightColor,[])
-                if index == 35:
-                    colorList = checkAt28(cube, left.color, right.color, 
-                               anotherbottomColor, bottomColor,
-                                 belowTwoColor,bottomLeftColor,[])
-                if index == 36:
-                    colorList = belowRightCol(cube,left.color,bottomLeftColor, 
-                                bottomColor,[])
-        redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
-                                    redColor, blueColor, greenColor, pinkColor)
-    
-    if 22 <= index <= 29:
-        if index <= 28:
-            anotherAboveColor = app.boardlist[index-7].color
-            right = app.boardlist[index+1]
-            if 22 <= index <= 27:
-                aboveRightColor = app.boardlist[index-6].color
-                if index ==22:
-                    colorList = aboveFarRight(cube,right.color,
-                                 anotherAboveColor, aboveRightColor,[])
-                if 23 <= index <=28:
-                    aboveTwoColor = app.boardlist[index-14].color
-                if index == 23:
-                    colorList = aboveleftCol(cube,left.color,right.color, 
-                                     aboveTwoColor,aboveColor,anotherAboveColor,
-                                           aboveRightColor,[])
-        if 23 <= index <= 29:
-            aboveColor = app.boardlist[index-7].color
-            left = app.boardlist[index-1]
-            if 24 <= index:
-                aboveLeftColor = app.boardlist[index-9].color
-                if index  == 28:
-                    colorList = aboveRightCol(cube,left.color,right.color, 
-                                    aboveColor,aboveTwoColor,anotherAboveColor,
-                                                    aboveLeftColor,[])
-                if index == 29:
-                    colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
-                                    aboveColor,[])
-        redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
-                                    redColor, blueColor, greenColor, pinkColor)
-    right = app.boardlist[index+1]
-    left = app.boardlist[index-1]
-    colorList =aboveElse(cube,left.color,right.color,aboveColor,aboveRightColor,
-                aboveTwoColor,anotherAboveColor,aboveLeftColor,colorList)
-
-    redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
-                                redColor, blueColor, greenColor, pinkColor)
-    if redColor == blueColor == greenColor == pinkColor == 1:
-        return app.user.placingCard['1']
-    elif ((redColor == 2) or (blueColor == 2) or 
-        (greenColor == 2) or (pinkColor == 2)):
-        return app.user.placingCard['2']
-    elif ((redColor == 3) or (blueColor == 3) or 
-        (greenColor == 3) or (pinkColor == 3)):
-        return app.user.placingCard['3']
-    elif ((redColor == 4) or (blueColor == 4) or 
-        (greenColor == 4) or (pinkColor == 4)):
-        return app.user.placingCard['4']
-    else:
-        return 0
+    app.buttons = [
+      Button(1250, 680, 1500, 750, "STOP!"),
+    ]
+    app.possibleMoves = []
+    app.status = 'User'
+    app.round = 1
 
 
 def mousePressed(app, event):
+    if 1250 <= event.x <= 1500 and 680 <= event.y <= 750:
+        app.status = 'AI'
+    
+    if app.status == 'User':
         if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
             app.user.placingCard = getRandomPlacingScore()
             app.user.pickingCard = getRandomPickingScore()
-            app.user.numBlue = random.randint(0,8)
-            app.user.numRed = random.randint(0,8)
-            app.user.numGreen = random.randint(0,8)
-            app.user.numPink = random.randint(0,8)
+            app.user.numBlue = random.randint(0,4)
+            app.user.numRed = random.randint(0,4)
+            app.user.numGreen = random.randint(0,4)
+            app.user.numPink = random.randint(0,4)
+            app.user.blue = app.user.red = app.user.green = app.user.pink = 0
 
         if (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
                                                         event.y<=332):
@@ -208,17 +81,35 @@ def mousePressed(app, event):
                             currCube.color = 'blue'
                             app.user.blue -=1
                             app.coloredCube.append(currCube.color)
-                            print(app.coloredCube)
-                            if len(app.coloredCube) % 4 == 0:
-                                if index <= 29:
-                                    app.user.score += belowAdjforTop(app,
+                            if len(app.coloredCube) >= 4:
+                                if 0 <= index <= 3:
+                                    app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
-                                    # if app.user.score == 0:
-                                    app.user.score += aboveAdjforTop(app,
-                                            currCube,index)  
-                                else:
-                                    app.user.score += belowAdjforBottom(app,
+                                    break
+                                if 4 <= index <= 29:
+                                    app.user.score += belowAdjforTopAI(app,
+                                                    currCube,index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforTopAI(app,
+                                            currCube,index)
+                                        break
+                                    if app.user.score == 0:
+                                        app.user.score += belowAdjforBottomAI(app,
                                                        currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                    break
                         break
                     elif currColor == 'red':
                         if app.user.red == 0:
@@ -227,13 +118,35 @@ def mousePressed(app, event):
                             currCube.color = 'red'
                             app.user.red -=1
                             app.coloredCube.append(currCube.color)
-                            print(app.coloredCube)
                             if len(app.coloredCube) % 4 == 0:
-                                if index <= 29:
-                                    app.user.score += belowAdjforTop(app,
+                                if 0 <= index <= 3:
+                                    app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
-                                    app.user.score += aboveAdjforTop(app,
-                                                     currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.user.score += belowAdjforTopAI(app,
+                                                    currCube,index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforTopAI(app,
+                                            currCube,index)
+                                        break
+                                    if app.user.score == 0:
+                                        app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                        break
+                                    break
+                                if 30 <= index <= 47:
+                                    app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                    break
                         break
                     elif currColor == 'green':
                         if app.user.green == 0:
@@ -242,14 +155,35 @@ def mousePressed(app, event):
                             currCube.color = 'green'
                             app.user.green -=1
                             app.coloredCube.append(currCube.color)
-                            print(app.coloredCube)
                             if len(app.coloredCube) % 4 == 0:
-                                if index <= 29:
-                                    app.user.score += belowAdjforTop(app,
+                                if 0 <= index <= 3:
+                                    app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
-                                    app.user.score += aboveAdjforTop(app,
+                                    break
+                                if 4 <= index <= 29:
+                                    app.user.score += belowAdjforTopAI(app,
+                                                    currCube,index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforTopAI(app,
                                             currCube,index)
-                                # app.user.score += aboveAdjacentCubes(app,currCube,i)
+                                        break
+                                    if app.user.score == 0:
+                                        app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                    break
                         break
                     elif currColor == 'pink':
                         if app.user.pink == 0:
@@ -258,22 +192,214 @@ def mousePressed(app, event):
                             currCube.color = 'pink'
                             app.user.pink -=1
                             app.coloredCube.append(currCube.color)
-                            print(app.coloredCube)
                             if len(app.coloredCube) % 4 == 0:
-                                if index <= 29:
-                                    app.user.score += belowAdjforTop(app,
+                                if 0 <= index <= 3:
+                                    app.user.score += belowAdjforTopAI(app,
                                                     currCube,index)
-                                    app.user.score += aboveAdjforTop(app,
-                                                currCube,index)
-                                # app.user.score += aboveAdjacentCubes(app,currCube,i)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.user.score += belowAdjforTopAI(app,
+                                                    currCube,index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforTopAI(app,
+                                            currCube,index)
+                                        break
+                                    if app.user.score == 0:
+                                        app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.user.score += belowAdjforBottomAI(app,
+                                                       currCube, index)
+                                    if app.user.score == 0:
+                                        app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.user.score += aboveAdjforBottomAI(app, 
+                                                       currCube, index)
+                                                
+                                    break
                         break
                     else:
                         app.showMessage('Please place within given color!')
+    else:
+        app.AI.placingCard = getRandomPlacingScore()
+        app.AI.pickingCard = getRandomPickingScore()
+        app.AI.blue = app.AI.red = app.AI.green = app.AI.pink = 0
+        app.AI.numBlue = random.randint(0,4)
+        app.AI.numRed = random.randint(0,4)
+        app.AI.numGreen = random.randint(0,4)
+        app.AI.numPink = random.randint(0,4)
+        while((app.AI.blue <= app.AI.numBlue) and(app.AI.red<=app.AI.numRed)and
+          (app.AI.green <= app.AI.numGreen) and (app.AI.pink <= app.AI.numPink)):
+            app.AI.rockNumAI += random.randint(1,3)
+        # rockNumAI += random.randint(1,3)
+            currBlueAI = random.randint(0, app.AI.rockNumAI)
+            app.AI.blue += currBlueAI
+            currRedAI = random.randint(0,app.AI.rockNumAI-currBlueAI)
+            app.AI.red += currRedAI
+            currGreenAI = random.randint(0,app.AI.rockNumAI-currBlueAI-currRedAI)
+            app.AI.green += currGreenAI
+            currPinkAI = random.randint(0,app.AI.rockNumAI-currBlueAI-
+                                        currRedAI-currGreenAI)
+            app.AI.pink += currPinkAI
+        app.AI.score += minimax(app.boardlist,None,1,True,app)
+        app.status = 'User'
+        app.round += 1
 
 
-                
+def getPossibleMoves(state):
+    res = []
+    for cube in state:
+        if cube.color == 'white':
+            res.append(cube)           
+    return res
 
-        
+def isLegal(app, currCube):
+    index = app.boardlist.index(currCube)
+    if index > 52 or index <0 or currCube.color != 'white':
+        return False
+    return True
+    
+
+def gameover(app):
+    if app.round >= 4:
+        return False
+    for cube in app.boardlist:
+        if cube.color == 'white':
+            return False
+    return True
+
+def isWin(state, currCube, userScore,app,color):
+    print(len(state))
+    print(currCube)
+    print(userScore)
+    print(color)
+    index = app.boardlist.index(currCube)
+    app.AI.coloredCube.append(color)
+    if len(app.AI.coloredCube) % 4 == 0:
+        if 0 <= index <= 3:
+            app.AI.score += belowAdjforTopAI(app,
+                            currCube,index)
+        if 4 <= index <= 29:
+            app.AI.score += belowAdjforTopAI(app,
+                            currCube,index)
+            if app.AI.score == 0:
+                app.AI.score +=  aboveAdjforTopAI(app,
+                    currCube,index)
+            if app.AI.score == 0:
+                app.AI.score += belowAdjforBottomAI(app,
+                                currCube, index)
+        if 30 <= index <= 47:
+            app.AI.score +=belowAdjforBottomAI(app,
+                                currCube, index)
+            if app.AI.score == 0:
+                app.AI.score += aboveAdjforBottomAI(app, 
+                                currCube, index)
+        else:
+            app.AI.score += aboveAdjforBottomAI(app, 
+                                currCube, index)
+    
+    return app.AI.score > userScore
+
+def isLost(state, currCube, userScore,app,color):
+    index = app.boardlist.index(currCube)
+    app.AI.coloredCube.append(color)
+    if len(app.AI.coloredCube) % 4 == 0:
+        if 0 <= index <= 3:
+            app.AI.score += belowAdjforTopAI(app,
+                            currCube,index)
+        if 4 <= index <= 29:
+            app.AI.score += belowAdjforTopAI(app,
+                            currCube,index)
+            if app.AI.score == 0:
+                app.AI.score +=  aboveAdjforTopAI(app,
+                    currCube,index)
+            if app.AI.score == 0:
+                app.AI.score += belowAdjforBottomAI(app,
+                                currCube, index)
+        if 30 <= index <= 47:
+            app.AI.score +=belowAdjforBottomAI(app,
+                                currCube, index)
+            if app.AI.score == 0:
+                app.AI.score += aboveAdjforBottomAI(app, 
+                                currCube, index)
+        else:
+            app.AI.score += aboveAdjforBottomAI(app, 
+                                currCube, index)
+    return app.AI.score < userScore
+
+def putColor(app):
+    res = []
+    if app.AI.blue != 0:
+        res.append("blue")
+    if app.AI.green != 0:
+        res.append("green")
+    if app.AI.red != 0:
+        res.append("red")
+    if app.AI.pink != 0:
+        res.append("pink")
+    currColor = random.choice(res)
+    app.AI.colors[currColor] -=1
+    print(res, currColor)
+    return currColor
+
+# def noRocks(app):
+#     if (app.AI.blue == 0 and app.AI.green == 0 and app.AI.red == 0 and 
+#        app.AI.pink == 0):
+#         return True
+#     return False
+
+def minimax(state,currCube,depth, maxPlayer,app):
+    if (depth == 0) or gameover(app):
+        score = evaluate(state,currCube,app)
+        return score
+    # print(app.boardlist)
+    newBoardlist = copy.copy(app.boardlist)
+    # print(newBoardlist)
+    possibleMoves = getPossibleMoves(state)
+    if maxPlayer:
+        maxValue = float('-inf')
+        for move in app.boardlist: # possibleMoves = number of uncolored area
+            # print(move)
+            if isLegal(app, move):
+                # index = app.boardlist.index(move)
+                move.color = putColor(app)
+                if currCube == None:
+                    currCube = move
+                # newBoardlist = copy.deepcopy(app.boardlist)
+                currValue = minimax(newBoardlist,currCube,depth-1,False,app)
+                print(currValue)
+                maxValue = max(maxValue,currValue)
+        return maxValue
+    else:
+        minValue = float('inf')
+        for move in app.boardlist:
+            # print(move)
+            if isLegal(app, move):
+                # index = app.boardlist.index(move)
+                move.color = putColor(app)
+                if currCube == None:
+                    currCube = move
+                # newBoardlist = copy.deepcopy(app.boardlist)
+                currValue = minimax(newBoardlist,currCube,depth-1,True,app)
+                minValue = min(currValue, minValue)
+        return minValue
+
+def evaluate(state,currCube,app):
+    userScore = app.user.score
+    color = currCube.color
+    if isWin(state, currCube,userScore,app,color):
+        return app.AI.score
+    elif isLost(state,currCube,userScore,app,color):
+        return app.AI.score
+    else:
+        return 0
+
+
 
 def redrawAll(app, canvas):
     canvas.create_rectangle(0,0,app.width, app.height,
@@ -286,17 +412,23 @@ def redrawAll(app, canvas):
     app.user.frontCard(canvas)
     app.user.backCard(canvas)
     app.user.currentScore(canvas)
-    canvas.create_text(1350, 400, text='Scores',fill='purple',
+    canvas.create_text(1350, 390, text=f'Round:{app.round}',fill='purple',
                        font = 'Helvetica 30 bold italic')
-    canvas.create_text(1350, 550, text=f'{app.user.score}',fill='purple',
+    canvas.create_text(1350, 470, text='Scores',fill='purple',
                        font = 'Helvetica 30 bold italic')
+    canvas.create_text(1350, 540, text=f'Your Score: {app.user.score}',
+           fill='purple',font = 'Helvetica 30 bold italic')
+    canvas.create_text(1350, 600, text=f'AI Score: {app.AI.score}',
+           fill='purple',font = 'Helvetica 30 bold italic')
     canvas.create_text(950,50, text='Pick!',fill='purple',
                        font = 'Helvetica 25 bold italic')
+    for button in app.buttons:
+        button.render(canvas)
     canvas.create_image(850,230,image=ImageTk.PhotoImage(app.cardDeck))
-    # imageWidth, imageHeight = app.rockBag.size #248 *300
     canvas.create_image(1100,230,image=ImageTk.PhotoImage(app.rockBag))
+    # cardDeck image is from 
+    # https://clipartpng.com/?2722,deck-of-cards-png-clip-art-image
+    # rockbag image is from https://www.pngwing.com/en/free-png-zgoig/download
 
-        
-    
             
 runApp(width=1550, height=800)

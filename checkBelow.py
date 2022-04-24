@@ -48,14 +48,19 @@ def checkElse(cube, rightColor,leftColor,bottomLeftColor,
     (bottomLeftColor!='white') and (bottomColor!='white')):
             colorList = checkLeft(cube, leftColor, 
                             anotherbottomColor, bottomColor,[])
-    elif ((cube.color != 'white') and (belowColor!='white') and 
+    if ((cube.color != 'white') and (belowColor!='white') and 
     (bottomColor!='white') and (anotherbottomColor!='white')):
         print(belowColor, anotherbottomColor, bottomColor)
         colorList = checkingBelow(cube, belowColor, bottomColor, 
                     anotherbottomColor,[])
-    elif ((cube.color != 'white') and (rightColor!='white') and 
+        print(colorList)
+    if ((cube.color != 'white') and (rightColor!='white') and 
     (anotherbottomColor!='white') and (bottomRightColor!='white')):
             colorList = checkRightMost(cube, rightColor, bottomRightColor,
+                    anotherbottomColor,[])
+    if ((cube.color != 'white') and (rightColor!='white') and 
+    (anotherbottomColor!='white') and (bottomColor!='white')):
+            colorList = checkRightMost(cube, rightColor, bottomColor,
                     anotherbottomColor,[])
     return colorList
 

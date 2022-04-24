@@ -1,7 +1,7 @@
 from checkBelow import *
 from checkAbove import *
 
-def belowAdjforTop(app,cube,index):
+def belowAdjforTopAI(app,cube,index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
     bottomColor = bottomLeftColor = belowColor = ''
@@ -76,6 +76,7 @@ def belowAdjforTop(app,cube,index):
             left = app.boardlist[index-1]
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
             anotherbottomColor,bottomRightColor, belowColor,bottomColor,[])
+        print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
@@ -106,32 +107,32 @@ def belowAdjforTop(app,cube,index):
 
     print(redColor, blueColor, greenColor, pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
-        if app.status == 'Player 1':
-            return app.player1.placingCard['1']
+        if app.status == 'User':
+            return app.user.placingCard['1']
         else:
-            return app.player2.placingCard['1']
+            return app.AI.placingCard['1']
     elif ((redColor == 2) or (blueColor == 2) or 
         (greenColor == 2) or (pinkColor == 2)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['2']
+        if app.status == 'User':
+            return app.user.placingCard['2']
         else:
-            return app.player2.placingCard['2']
+            return app.AI.placingCard['2']
     elif ((redColor == 3) or (blueColor == 3) or 
         (greenColor == 3) or (pinkColor == 3)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['3']
+        if app.status == 'User':
+            return app.user.placingCard['3']
         else:
-            return app.player2.placingCard['3']
+            return app.AI.placingCard['3']
     elif ((redColor == 4) or (blueColor == 4) or 
         (greenColor == 4) or (pinkColor == 4)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['4']
+        if app.status == 'User':
+            return app.user.placingCard['4']
         else:
-            return app.player2.placingCard['4']
+            return app.AI.placingCard['4']
     else:
         return 0
 
-def aboveAdjforTop(app, cube, index):
+def aboveAdjforTopAI(app, cube, index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
     aboveLeftColor = aboveTwoColor = aboveColor = ''
@@ -269,27 +270,27 @@ def aboveAdjforTop(app, cube, index):
     
     print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
-        if app.status == 'Player 1':
-            return app.player1.placingCard['1']
+        if app.status == 'User':
+            return app.user.placingCard['1']
         else:
-            return app.player2.placingCard['1']
+            return app.AI.placingCard['1']
     elif ((redColor == 2) or (blueColor == 2) or 
         (greenColor == 2) or (pinkColor == 2)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['2']
+        if app.status == 'User':
+            return app.user.placingCard['2']
         else:
-            return app.player2.placingCard['2']
+            return app.AI.placingCard['2']
     elif ((redColor == 3) or (blueColor == 3) or 
         (greenColor == 3) or (pinkColor == 3)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['3']
+        if app.status == 'User':
+            return app.user.placingCard['3']
         else:
-            return app.player2.placingCard['3']
+            return app.AI.placingCard['3']
     elif ((redColor == 4) or (blueColor == 4) or 
         (greenColor == 4) or (pinkColor == 4)):
-        if app.status == 'Player 1':
-            return app.player1.placingCard['4']
+        if app.status == 'User':
+            return app.user.placingCard['4']
         else:
-            return app.player2.placingCard['4']
+            return app.AI.placingCard['4']
     else:
         return 0

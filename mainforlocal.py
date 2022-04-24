@@ -3,6 +3,8 @@ from userTwo import *
 from userOne import *
 from cmu_112_graphics import *
 from buttons import *
+from TopScoring import *
+from BottomScoring import *
 import random
 
 def getRandomPlacingScore():
@@ -42,7 +44,7 @@ def getRandomPickingScore():
     return random.choice(pickingSet)
     
 def appStarted(app):
-    app.boardlistLocal = createBoard(app)
+    app.boardlist = createBoard(app)
     app.player1 = UserOne()
     app.player2 = UserTwo()
     app.image1 = app.loadImage('Deck_of_Cards.png')
@@ -52,9 +54,10 @@ def appStarted(app):
     app.buttons = [
       Button(270, 680, 520, 750, "STOP!"),
       Button(1250, 680, 1500, 750, "STOP!")
-    #   Button(insert, params, here, pls, "Goodbye!", thisIsAnotheFunction),
    ]
     app.status = 'Player 1'
+    app.coloredCube1 = []
+    app.coloredCube2 = []
 
 def mousePressed(app, event):
     if (270 <= event.x <=520) and (680 <= event.y <=750):
@@ -81,86 +84,430 @@ def mousePressed(app, event):
         app.player1.redcir = 'red'
         app.player1.greencir = 'green'
         app.player1.pinkcir = 'pink'
-        # if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
-        #     app.user.placingCard = getRandomPlacingScore()
-        #     app.user.pickingCard = getRandomPickingScore()
-        #     app.user.numBlue = random.randint(0,8)
-        #     app.user.numRed = random.randint(0,8)
-        #     app.user.numGreen = random.randint(0,8)
-        #     app.user.numPink = random.randint(0,8)
 
-        # if (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
-        #                                                 event.y<=332):
-        #     rockNum = int(app.getUserInput('How many rocks do you want?'))
-        #     if rockNum >3 or rockNum <1:
-        #         app.showMessage('Please pick 1~3 rocks at a time!')
-        #     else:
-        #         currBlue = random.randint(0, rockNum)
-        #         app.user.blue += currBlue
-        #         currRed = random.randint(0,rockNum-currBlue)
-        #         app.user.red += currRed
-        #         currGreen = random.randint(0,rockNum-currBlue-currRed)
-        #         app.user.green += currGreen
-        #         currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
-        #         app.user.pink += currPink
-        # i  = 0
-        # while i < 52:
-        #     currCube = app.boardlist[i]
-        #     if ((currCube.x <= event.x <= currCube.x + 90) and 
-        #         (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
-        #         if (((currCube.x < event.x < currCube.x+1.5*30) and 
-        #                     (currCube.y < event.y < currCube.y-0.5*50)) or
-        #             ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
-        #                     (currCube.y < event.y < currCube.y-0.5*50)) or
-        #             ((currCube.x < event.x < currCube.x+1.5*30) and 
-        #                     (currCube.y+50 < event.y < currCube.y+1.5*50)) or
-        #             ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
-        #                     (currCube.y+50 < event.y < currCube.y+1.5*50))):
-        #             continue
-        #         else:
-        #             currColor = app.getUserInput('What color of \
-        #                                         rock do you want to put?')
-        #             if currCube.color != 'white':
-        #                 app.showMessage('This area has been already placed')
-        #                 break
-        #             elif currColor == 'blue':
-        #                 if app.user.blue == 0:
-        #                     app.showMessage("You don't have blue anymore")
-        #                 else:
-        #                     currCube.color = 'blue'
-        #                     app.user.blue -=1
-        #                 break
-        #             elif currColor == 'red':
-        #                 if app.user.red == 0:
-        #                     app.showMessage("You don't have red anymore")
-        #                 else:
-        #                     currCube.color = 'red'
-        #                     app.user.red -=1
-        #                 break
-        #             elif currColor == 'green':
-        #                 if app.user.green == 0:
-        #                     app.showMessage("You don't have green anymore")
-        #                 else:
-        #                     currCube.color = 'green'
-        #                     app.user.green -=1
-        #                 break
-        #             elif currColor == 'pink':
-        #                 if app.user.pink == 0:
-        #                     app.showMessage("You don't have pink anymore")
-        #                 else:
-        #                     currCube.color = 'pink'
-        #                     app.user.pink -=1
-        #                 break
-        #             else:
-        #                 app.showMessage('Please place within given color!')
-        #                 break
-        #     i +=1
+    if app.status == 'Player 1':
+        if (176 <= event.x<= 424) and (350<=event.y<=650):
+            app.player1.placingCard = getRandomPlacingScore()
+            app.player1.pickingCard = getRandomPickingScore()
+            app.player1.numBlue = random.randint(0,5)
+            app.player1.numRed = random.randint(0,5)
+            app.player1.numGreen = random.randint(0,5)
+            app.player1.numPink = random.randint(0,5)
+
+        if (350 <= event.x <= 530) and (378 <= event.y<=602):
+            rockNum = int(app.getUserInput('How many rocks do you want?'))
+            if rockNum >3 or rockNum <1:
+                app.showMessage('Please pick 1~3 rocks at a time!')
+            else:
+                currBlue = random.randint(0, rockNum)
+                app.player1.blue += currBlue
+                currRed = random.randint(0,rockNum-currBlue)
+                app.player1.red += currRed
+                currGreen = random.randint(0,rockNum-currBlue-currRed)
+                app.player1.green += currGreen
+                currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
+                app.player1.pink += currPink
+        for currCube in app.boardlist:
+            index = app.boardlist.index(currCube)
+            # currCube = app.boardlist[i]
+            if ((currCube.x <= event.x <= currCube.x + 90) and 
+                (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
+                if (((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50))):
+                    break
+                else:
+                    currColor = app.getUserInput('What color of \
+                                                rock do you want to put?')
+                    if currCube.color != 'white':
+                        app.showMessage('This area has been already placed')
+                        break
+                    elif currColor == 'blue':
+                        if app.player1.blue == 0:
+                            app.showMessage("You don't have blue anymore")
+                        else:
+                            currCube.color = 'blue'
+                            app.player1.blue -=1
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforTop(
+                                                app,currCube,index)
+                                        break
+                                    if app.player1.score == 0:
+                                        app.player1.score += belowAdjforBottom(
+                                            app,currCube, index)
+                                        break
+                                    # app.coloredCube = app.coloredCube[4:]
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforBottom(
+                                            app, currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player1.score += aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'red':
+                        if app.player1.red == 0:
+                            app.showMessage("You don't have red anymore")
+                        else:
+                            currCube.color = 'red'
+                            app.player1.red -=1
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player1.score == 0:
+                                        app.player1.score += \
+                                        belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player1.score += belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += \
+                                        aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player1.score += aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'green':
+                        if app.player1.green == 0:
+                            app.showMessage("You don't have green anymore")
+                        else:
+                            currCube.color = 'green'
+                            app.player1.green -=1
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player1.score == 0:
+                                        app.player1.score += \
+                                              belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break
+                                if 30 <= index <= 47:
+                                    app.player1.score += belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforBottom(
+                                            app,currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player1.score += aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'pink':
+                        if app.player1.pink == 0:
+                            app.showMessage("You don't have pink anymore")
+                        else:
+                            currCube.color = 'pink'
+                            app.user.pink -=1
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player1.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player1.score == 0:
+                                        app.player1.score += belowAdjforBottom(
+                                            app,currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player1.score += belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player1.score == 0:
+                                        app.player1.score += aboveAdjforBottom(
+                                            app,currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player1.score += aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                                
+                                    break
+                        break
+                    else:
+                        app.showMessage('Please place within given color!')
+    else:
+        if (1176 <= event.x<= 1424) and (350<=event.y<=650):
+            app.player2.placingCard = getRandomPlacingScore()
+            app.player2.pickingCard = getRandomPickingScore()
+            app.player2.numBlue = random.randint(0,5)
+            app.player2.numRed = random.randint(0,5)
+            app.player2.numGreen = random.randint(0,5)
+            app.player2.numPink = random.randint(0,5)
+
+        if (1350 <= event.x <= 1530) and (398 <= event.y<=602):
+            rockNum = int(app.getUserInput('How many rocks do you want?'))
+            if rockNum >3 or rockNum <1:
+                app.showMessage('Please pick 1~3 rocks at a time!')
+            else:
+                currBlue = random.randint(0, rockNum)
+                app.player2.blue += currBlue
+                currRed = random.randint(0,rockNum-currBlue)
+                app.player2.red += currRed
+                currGreen = random.randint(0,rockNum-currBlue-currRed)
+                app.player2.green += currGreen
+                currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
+                app.player2.pink += currPink
+        for currCube in app.boardlist:
+            index = app.boardlist.index(currCube)
+            # currCube = app.boardlist[i]
+            if ((currCube.x <= event.x <= currCube.x + 90) and 
+                (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
+                if (((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y < event.y < currCube.y-0.5*50)) or
+                    ((currCube.x < event.x < currCube.x+1.5*30) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50)) or
+                    ((currCube.x+1.5*30 < event.x < currCube.x+90) and 
+                            (currCube.y+50 < event.y < currCube.y+1.5*50))):
+                    break
+                else:
+                    currColor = app.getUserInput('What color of \
+                                                rock do you want to put?')
+                    if currCube.color != 'white':
+                        app.showMessage('This area has been already placed')
+                        break
+                    elif currColor == 'blue':
+                        if app.player2.blue == 0:
+                            app.showMessage("You don't have blue anymore")
+                        else:
+                            currCube.color = 'blue'
+                            app.player2.blue -=1
+                            app.coloredCube2.append(currCube.color)
+                            if len(  app.coloredCube2) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player2.score += \
+                                        belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                    
+                                if 4 <= index <= 29:
+                                    app.player2.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforTop(app,currCube,index)
+                                        break
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break
+                                if 30 <= index <= 47:
+                                    app.player2.score += \
+                                    belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player2.score += \
+                                    aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'red':
+                        if app.player2.red == 0:
+                            app.showMessage("You don't have red anymore")
+                        else:
+                            currCube.color = 'red'
+                            app.player2.red -=1
+                            app.coloredCube2.append(currCube.color)
+                            print(app.coloredCube2)
+                            if len(app.coloredCube2) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player2.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player2.score += \
+                                    belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player2.score == 0:
+                                        app.player2.score +=\
+                                        belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player2.score += \
+                                    belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player2.score += \
+                                    aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'green':
+                        if app.player2.green == 0:
+                            app.showMessage("You don't have green anymore")
+                        else:
+                            currCube.color = 'green'
+                            app.player2.green -=1
+                            app.coloredCube2.append(currCube.color)
+                            if len( app.coloredCube2) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player2.score += \
+                                    belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player2.score += \
+                                    belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player2.score += \
+                                    belowAdjforBottom(app,
+                                                    currCube, index)
+                                    print(app.user.score)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player2.score += \
+                                    aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                    break
+                        break
+                    elif currColor == 'pink':
+                        if app.player2.pink == 0:
+                            app.showMessage("You don't have pink anymore")
+                        else:
+                            currCube.color = 'pink'
+                            app.user.pink -=1
+                            app.coloredCube2.append(currCube.color)
+                            if len(app.coloredCube2) % 4 == 0:
+                                if 0 <= index <= 3:
+                                    app.player2.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    break
+                                if 4 <= index <= 29:
+                                    app.player2.score += belowAdjforTop(app,
+                                                    currCube,index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforTop(app,
+                                            currCube,index)
+                                        break
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        belowAdjforBottom(app,
+                                                    currCube, index)
+                                        break
+                                    break 
+                                if 30 <= index <= 47:
+                                    app.player2.score += \
+                                    belowAdjforBottom(app,
+                                                    currCube, index)
+                                    if app.player2.score == 0:
+                                        app.player2.score += \
+                                        aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                        break
+                                    break
+                                else:
+                                    app.player2.score += aboveAdjforBottom(app, 
+                                                    currCube, index)
+                                                
+                                    break
+                        break
+                    else:
+                        app.showMessage('Please place within given color!')
+
 
 
 def redrawAll(app, canvas):
     canvas.create_rectangle(0,0,app.width, app.height,
                             fill = '#FFFFCC')
-    for cube in app.boardlistLocal:
+    for cube in app.boardlist:
         cube.drawAcube(canvas)
     app.player1.player1(canvas)
     app.player1.frontCard(canvas)
@@ -174,6 +521,9 @@ def redrawAll(app, canvas):
     canvas.create_image(440,500,image=ImageTk.PhotoImage(app.rockBag))
     canvas.create_image(1300,500,image=ImageTk.PhotoImage(app.cardDeck))
     canvas.create_image(1440,500,image=ImageTk.PhotoImage(app.rockBag))
+    # cardDeck image is from 
+    # https://clipartpng.com/?2722,deck-of-cards-png-clip-art-image
+    # rockbag image is from https://www.pngwing.com/en/free-png-zgoig/download
     canvas.create_text(300, 630, text='Scores',fill='purple',
                        font = 'Helvetica 30 bold italic')
     canvas.create_text(1300, 630, text='Scores',fill='purple',
