@@ -16,8 +16,6 @@ class AI():
         self.score = 0
         self.currSameColor = 0
         self.coloredCube = []
-        self.colors = {'blue': self.blue, 'red':self.red, 
-                        'green':self.green,'pink':self.pink}
         self.rockNumAI = 0
 
 class User():

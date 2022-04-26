@@ -43,25 +43,27 @@ def getRandomPickingScore():
                     {'1':1,'2':1,'3':2,'4':4,'5':6,'6':7,'7':10}]
     return random.choice(pickingSet)
     
-def appStarted(app):
-    app.boardlist = createBoard(app)
-    app.player1 = UserOne()
-    app.player2 = UserTwo()
-    app.image1 = app.loadImage('Deck_of_Cards.png')
-    app.cardDeck = app.scaleImage(app.image1, 0.4)
-    app.image2 = app.loadImage('rockbag.png')
-    app.rockBag = app.scaleImage(app.image2, 0.1)
-    app.buttons = [
-      Button(270, 680, 520, 750, "STOP!"),
-      Button(1250, 680, 1500, 750, "STOP!")
-   ]
-    app.status = 'Player 1'
-    app.coloredCube1 = []
-    app.coloredCube2 = []
+# def appStarted(app):
+#     app.boardlist = createBoard(app)
+#     app.player1 = UserOne()
+#     app.player2 = UserTwo()
+#     app.image1 = app.loadImage('Deck_of_Cards.png')
+#     app.cardDeck = app.scaleImage(app.image1, 0.4)
+#     app.image2 = app.loadImage('rockbag.png')
+#     app.rockBag = app.scaleImage(app.image2, 0.1)
+#     app.buttons = [
+#       Button(270, 680, 520, 750, "STOP!"),
+#       Button(1250, 680, 1500, 750, "STOP!")
+#    ]
+#     app.status = 'Player 1'
+#     app.coloredCube1 = []
+#     app.coloredCube2 = []
+#     app.round = 1
+#     app.isGameOver = False
 
-def mousePressed(app, event):
+def mode2_mousePressed(app, event):
     if (270 <= event.x <=520) and (680 <= event.y <=750):
-        app.status = 'Player 2'
+        app.status2 = 'Player 2'
         app.player1.cardColor = 'black'
         app.player1.bluecir = 'black'
         app.player1.redcir = 'black'
@@ -72,8 +74,9 @@ def mousePressed(app, event):
         app.player2.redcir = 'red'
         app.player2.greencir = 'green'
         app.player2.pinkcir = 'pink'
+        app.player1.blue=app.player1.red=app.player1.green=app.player1.pink=0
     if (1250 <= event.x <=1500) and (680 <= event.y <=750):
-        app.status = 'Player 1'
+        app.status2 = 'Player 1'
         app.player2.cardColor = 'black'
         app.player2.bluecir = 'black'
         app.player2.redcir = 'black'
@@ -84,8 +87,13 @@ def mousePressed(app, event):
         app.player1.redcir = 'red'
         app.player1.greencir = 'green'
         app.player1.pinkcir = 'pink'
+        app.player2.blue=app.player2.red=app.player2.green=app.player2.pink=0
+        if app.round == 4:
+            app.isGameOver = True
+        else:
+            app.round +=1
 
-    if app.status == 'Player 1':
+    if app.status2 == 'Player 1':
         if (176 <= event.x<= 424) and (350<=event.y<=650):
             app.player1.placingCard = getRandomPlacingScore()
             app.player1.pickingCard = getRandomPickingScore()
@@ -107,8 +115,27 @@ def mousePressed(app, event):
                 app.player1.green += currGreen
                 currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
                 app.player1.pink += currPink
-        for currCube in app.boardlist:
-            index = app.boardlist.index(currCube)
+                
+        if (450<=event.x<=570) and (40<=event.y<=140):
+            total=app.player1.blue+app.player1.red+app.player1.green\
+                              +app.player1.pink
+            print(total)
+            if total == 1:
+                app.player1.score += app.player1.pickingCard['1']
+            elif total == 2:
+                app.player1.score += app.player1.pickingCard['2']
+            elif total == 3:
+                app.player1.score += app.player1.pickingCard['3']
+            elif total == 4:
+                app.player1.score += app.player1.pickingCard['4']
+            elif total == 5:
+                app.player1.score += app.player1.pickingCard['5']
+            elif total == 6:
+                app.player1.score += app.player1.pickingCard['6']
+            elif total == 7:
+                app.player1.score += app.player1.pickingCard['7']
+        for currCube in app.boardlist2:
+            # index = app.boardlist.index(currCube)
             # currCube = app.boardlist[i]
             if ((currCube.x <= event.x <= currCube.x + 90) and 
                 (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
@@ -134,7 +161,10 @@ def mousePressed(app, event):
                             currCube.color = 'blue'
                             app.player1.blue -=1
                             app.coloredCube1.append(currCube.color)
-                            if len(app.coloredCube1) % 4 == 0:
+                            print(app.coloredCube1)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
@@ -143,23 +173,20 @@ def mousePressed(app, event):
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
                                     
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforTop(
-                                                app,currCube,index)
-                                        break
-                                    if app.player1.score == 0:
-                                        app.player1.score += belowAdjforBottom(
-                                            app,currCube, index)
-                                        break
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
                                     # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
                                     app.player1.score += belowAdjforBottom(
                                         app,currCube, index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforBottom(
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforBottom(
                                             app, currCube, index)
-                                        break
                                     break
                                 else:
                                     app.player1.score += aboveAdjforBottom(app, 
@@ -173,7 +200,10 @@ def mousePressed(app, event):
                             currCube.color = 'red'
                             app.player1.red -=1
                             app.coloredCube1.append(currCube.color)
-                            if len(app.coloredCube1) % 4 == 0:
+                            print(app.coloredCube1)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
@@ -181,24 +211,21 @@ def mousePressed(app, event):
                                 if 4 <= index <= 29:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player1.score == 0:
-                                        app.player1.score += \
-                                        belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
-                                    app.player1.score += belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += \
-                                        aboveAdjforBottom(app, 
-                                                    currCube, index)
-                                        break
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
                                     app.player1.score += aboveAdjforBottom(app, 
@@ -212,7 +239,10 @@ def mousePressed(app, event):
                             currCube.color = 'green'
                             app.player1.green -=1
                             app.coloredCube1.append(currCube.color)
-                            if len(app.coloredCube1) % 4 == 0:
+                            print(app.coloredCube1)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
@@ -220,23 +250,21 @@ def mousePressed(app, event):
                                 if 4 <= index <= 29:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player1.score == 0:
-                                        app.player1.score += \
-                                              belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
-                                    break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
+                                    break 
                                 if 30 <= index <= 47:
-                                    app.player1.score += belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforBottom(
-                                            app,currCube, index)
-                                        break
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
                                     app.player1.score += aboveAdjforBottom(app, 
@@ -248,9 +276,12 @@ def mousePressed(app, event):
                             app.showMessage("You don't have pink anymore")
                         else:
                             currCube.color = 'pink'
-                            app.user.pink -=1
+                            app.player1.pink -=1
                             app.coloredCube1.append(currCube.color)
-                            if len(app.coloredCube1) % 4 == 0:
+                            print(app.coloredCube1)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
@@ -258,27 +289,25 @@ def mousePressed(app, event):
                                 if 4 <= index <= 29:
                                     app.player1.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player1.score == 0:
-                                        app.player1.score += belowAdjforBottom(
-                                            app,currCube, index)
-                                        break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
-                                    app.player1.score += belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player1.score == 0:
-                                        app.player1.score += aboveAdjforBottom(
-                                            app,currCube, index)
-                                        break
+                                    app.player1.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player1.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
                                     app.player1.score += aboveAdjforBottom(app, 
                                                     currCube, index)
-                                                
                                     break
                         break
                     else:
@@ -305,8 +334,27 @@ def mousePressed(app, event):
                 app.player2.green += currGreen
                 currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
                 app.player2.pink += currPink
-        for currCube in app.boardlist:
-            index = app.boardlist.index(currCube)
+        
+        if (1000<=event.x<=1120) and (40<=event.y<=140):
+            total=app.player2.blue+app.player2.red+app.player2.green\
+                              +app.player2.pink
+            if total == 1:
+                app.player2.score += app.player2.pickingCard['1']
+            elif total == 2:
+                app.player2.score += app.player2.pickingCard['2']
+            elif total == 3:
+                app.player2.score += app.player2.pickingCard['3']
+            elif total == 4:
+                app.player2.score += app.player2.pickingCard['4']
+            elif total == 5:
+                app.player2.score += app.player2.pickingCard['5']
+            elif total == 6:
+                app.player2.score += app.player2.pickingCard['6']
+            elif total == 7:
+                app.player2.score += app.player2.pickingCard['7']
+
+        for currCube in app.boardlist2:
+            # index = app.boardlist.index(currCube)
             # currCube = app.boardlist[i]
             if ((currCube.x <= event.x <= currCube.x + 90) and 
                 (currCube.y-0.5*50<= event.y <= currCube.y + 1.5*50)):
@@ -331,40 +379,34 @@ def mousePressed(app, event):
                         else:
                             currCube.color = 'blue'
                             app.player2.blue -=1
-                            app.coloredCube2.append(currCube.color)
-                            if len(  app.coloredCube2) % 4 == 0:
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
                                 if 0 <= index <= 3:
-                                    app.player2.score += \
-                                        belowAdjforTop(app,
+                                    app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
                                     break
-                                    
                                 if 4 <= index <= 29:
                                     app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforTop(app,currCube,index)
-                                        break
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
-                                    break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
+                                    break 
                                 if 30 <= index <= 47:
-                                    app.player2.score += \
-                                    belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforBottom(app, 
-                                                    currCube, index)
-                                        break
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
-                                    app.player2.score += \
-                                    aboveAdjforBottom(app, 
+                                    app.player2.score += aboveAdjforBottom(app, 
                                                     currCube, index)
                                     break
                         break
@@ -374,41 +416,35 @@ def mousePressed(app, event):
                         else:
                             currCube.color = 'red'
                             app.player2.red -=1
-                            app.coloredCube2.append(currCube.color)
-                            print(app.coloredCube2)
-                            if len(app.coloredCube2) % 4 == 0:
+                            app.coloredCube1.append(currCube.color)
+                            print(app.coloredCube1)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
                                 if 0 <= index <= 3:
                                     app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
                                     break
                                 if 4 <= index <= 29:
-                                    app.player2.score += \
-                                    belowAdjforTop(app,
+                                    app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player2.score == 0:
-                                        app.player2.score +=\
-                                        belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
-                                    app.player2.score += \
-                                    belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforBottom(app, 
-                                                    currCube, index)
-                                        break
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
-                                    app.player2.score += \
-                                    aboveAdjforBottom(app, 
+                                    app.player2.score += aboveAdjforBottom(app, 
                                                     currCube, index)
                                     break
                         break
@@ -418,42 +454,35 @@ def mousePressed(app, event):
                         else:
                             currCube.color = 'green'
                             app.player2.green -=1
-                            app.coloredCube2.append(currCube.color)
-                            if len( app.coloredCube2) % 4 == 0:
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
-                                    app.player2.score += \
-                                    belowAdjforTop(app,
+                                    app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
                                     break
                                 if 4 <= index <= 29:
-                                    app.player2.score += \
-                                    belowAdjforTop(app,
+                                    app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
-                                    app.player2.score += \
-                                    belowAdjforBottom(app,
-                                                    currCube, index)
-                                    print(app.user.score)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforBottom(app, 
-                                                    currCube, index)
-                                        break
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
-                                    app.player2.score += \
-                                    aboveAdjforBottom(app, 
+                                    app.player2.score += aboveAdjforBottom(app, 
                                                     currCube, index)
                                     break
                         break
@@ -462,9 +491,11 @@ def mousePressed(app, event):
                             app.showMessage("You don't have pink anymore")
                         else:
                             currCube.color = 'pink'
-                            app.user.pink -=1
-                            app.coloredCube2.append(currCube.color)
-                            if len(app.coloredCube2) % 4 == 0:
+                            app.player2.pink -=1
+                            app.coloredCube1.append(currCube.color)
+                            if len(app.coloredCube1) >=4:
+                                index = app.boardlist2.index(currCube)
+                                print(index)
                                 if 0 <= index <= 3:
                                     app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
@@ -472,42 +503,38 @@ def mousePressed(app, event):
                                 if 4 <= index <= 29:
                                     app.player2.score += belowAdjforTop(app,
                                                     currCube,index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforTop(app,
-                                            currCube,index)
-                                        break
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        belowAdjforBottom(app,
-                                                    currCube, index)
-                                        break
+                                    
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforTop(
+                                            app,currCube,index)
+                                # if app.player1.score == 0:
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # app.coloredCube = app.coloredCube[4:]
                                     break 
                                 if 30 <= index <= 47:
-                                    app.player2.score += \
-                                    belowAdjforBottom(app,
-                                                    currCube, index)
-                                    if app.player2.score == 0:
-                                        app.player2.score += \
-                                        aboveAdjforBottom(app, 
-                                                    currCube, index)
-                                        break
+                                    app.player2.score += belowAdjforBottom(
+                                        app,currCube, index)
+                                    # if app.player1.score == 0:
+                                    app.player2.score += aboveAdjforBottom(
+                                            app, currCube, index)
                                     break
                                 else:
                                     app.player2.score += aboveAdjforBottom(app, 
                                                     currCube, index)
-                                                
                                     break
                         break
                     else:
                         app.showMessage('Please place within given color!')
 
+def mode2_timerFired(app):
+    if app.isGameOver:
+        return
 
-
-def redrawAll(app, canvas):
+def mode2_redrawAll(app, canvas):
     canvas.create_rectangle(0,0,app.width, app.height,
                             fill = '#FFFFCC')
-    for cube in app.boardlist:
+    for cube in app.boardlist2:
         cube.drawAcube(canvas)
     app.player1.player1(canvas)
     app.player1.frontCard(canvas)
@@ -517,10 +544,10 @@ def redrawAll(app, canvas):
     app.player2.frontCard(canvas)
     app.player2.backCard(canvas)
     app.player2.currentRocks(canvas)
-    canvas.create_image(300,500,image=ImageTk.PhotoImage(app.cardDeck))
-    canvas.create_image(440,500,image=ImageTk.PhotoImage(app.rockBag))
-    canvas.create_image(1300,500,image=ImageTk.PhotoImage(app.cardDeck))
-    canvas.create_image(1440,500,image=ImageTk.PhotoImage(app.rockBag))
+    canvas.create_image(300,500,image=ImageTk.PhotoImage(app.cardDeck2))
+    canvas.create_image(440,500,image=ImageTk.PhotoImage(app.rockBag2))
+    canvas.create_image(1300,500,image=ImageTk.PhotoImage(app.cardDeck2))
+    canvas.create_image(1440,500,image=ImageTk.PhotoImage(app.rockBag2))
     # cardDeck image is from 
     # https://clipartpng.com/?2722,deck-of-cards-png-clip-art-image
     # rockbag image is from https://www.pngwing.com/en/free-png-zgoig/download
@@ -536,10 +563,23 @@ def redrawAll(app, canvas):
                        font = 'Helvetica 25 bold italic')
     canvas.create_text(1360,380, text='Pick!',fill='purple',
                        font = 'Helvetica 25 bold italic')
-    canvas.create_text(780,700, text=f'Current: {app.status}',fill='purple',
+    canvas.create_text(780,700, text=f'Current: {app.status2}',fill='purple',
                        font = 'Helvetica 25 bold italic')
-    for button in app.buttons:
+    canvas.create_text(780,750, text=f'Round: {app.round}',fill='purple',
+                       font = 'Helvetica 25 bold italic')
+    for button in app.buttons2:
         button.render(canvas)
+    if app.isGameOver:
+        if app.player1.score > app.player2.score:
+            canvas.create_rectangle(app.width/3, app.height/3,
+                      app.width*(2/3),app.height*(2/3),fill = 'white')
+            canvas.create_text(app.width/2, app.height/2, text="Player1 won!",
+                            font = "Arial 60 bold", fill = 'black')
+        else:
+            canvas.create_rectangle(app.width/3, app.height/3,
+                      app.width*(2/3),app.height*(2/3),fill = 'white')
+            canvas.create_text(app.width/2, app.height/2, text="Player2 won!",
+                            font = "Arial 60 bold", fill = 'black')
 
     
-runApp(width=1550, height=800)
+# runApp(width=1550, height=800)

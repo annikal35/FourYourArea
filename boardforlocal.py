@@ -25,7 +25,7 @@ class BoardforLocal():
                               self.x+3*self.c,self.y+self.d,
                               outline='black',fill=self.color)
 
-def createBoard(app):
+def createBoard2(app):
     k = 10
     g = 9
     cubelist = []

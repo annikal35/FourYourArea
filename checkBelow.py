@@ -46,22 +46,25 @@ def checkElse(cube, rightColor,leftColor,bottomLeftColor,
             bottomColor,colorList):
     if ((cube.color != 'white') and (leftColor!='white') and 
     (bottomLeftColor!='white') and (bottomColor!='white')):
-            colorList = checkLeft(cube, leftColor, 
-                            anotherbottomColor, bottomColor,[])
+        # print(cube.color, leftColor, bottomLeftColor, bottomColor)
+        colorList = checkLeft(cube, leftColor, 
+                        bottomLeftColor, bottomColor,colorList)
     if ((cube.color != 'white') and (belowColor!='white') and 
     (bottomColor!='white') and (anotherbottomColor!='white')):
-        print(belowColor, anotherbottomColor, bottomColor)
+        # print(belowColor, anotherbottomColor, bottomColor)
         colorList = checkingBelow(cube, belowColor, bottomColor, 
-                    anotherbottomColor,[])
-        print(colorList)
+                    anotherbottomColor,colorList)
+        # print(colorList)
     if ((cube.color != 'white') and (rightColor!='white') and 
     (anotherbottomColor!='white') and (bottomRightColor!='white')):
-            colorList = checkRightMost(cube, rightColor, bottomRightColor,
-                    anotherbottomColor,[])
+        colorList = checkRightMost(cube, rightColor, bottomRightColor,
+                    anotherbottomColor,colorList)
     if ((cube.color != 'white') and (rightColor!='white') and 
     (anotherbottomColor!='white') and (bottomColor!='white')):
-            colorList = checkRightMost(cube, rightColor, bottomColor,
-                    anotherbottomColor,[])
+        colorList = checkRightMost(cube, rightColor, bottomColor,
+                    anotherbottomColor,colorList)
+        print(cube.color,rightColor,anotherbottomColor,bottomColor)
+    # print(colorList)
     return colorList
 
 def checkAt0(cube, rightColor,anotherbottomColor, bottomRightColor, 

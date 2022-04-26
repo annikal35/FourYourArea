@@ -18,15 +18,15 @@ def belowAdjforTopAI(app,cube,index):
             bottomLeftColor = app.boardlist[index+3].color
         if index == 0:
             colorList = checkAt0(cube, right.color,anotherbottomColor, 
-                        bottomRightColor,belowColor,bottomColor,[])
+                        bottomRightColor,belowColor,bottomColor,colorList)
         elif index == 3:
             colorList = checkAt3(cube,left.color,anotherbottomColor,
-                                    bottomLeftColor, belowColor,bottomColor,[])
+                                    bottomLeftColor, belowColor,bottomColor,colorList)
         elif index ==1 or index ==2:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
             colorList = checkElse(cube,right.color,left.color,bottomLeftColor,
-        anotherbottomColor,bottomRightColor, belowColor,bottomColor,[])
+        anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
@@ -38,19 +38,19 @@ def belowAdjforTopAI(app,cube,index):
             right = app.boardlist[index+1]
             bottomRightColor = app.boardlist[index+7].color
             colorList = checkAtFour(cube, right.color,anotherbottomColor,
-                            bottomRightColor,belowColor,bottomColor,[])
+                            bottomRightColor,belowColor,bottomColor,colorList)
         elif index == 8:
             left = app.boardlist[index-1]
             bottomLeftColor = app.boardlist[index+4].color
             colorList = checkAtEight(cube, left.color,anotherbottomColor,
-                            bottomLeftColor,belowColor,bottomColor,[])
+                            bottomLeftColor,belowColor,bottomColor,colorList)
         else:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
             bottomRightColor = app.boardlist[index+7].color
             bottomLeftColor = app.boardlist[index+4].color
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
-            anotherbottomColor,bottomRightColor, belowColor,bottomColor,[])
+            anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
         print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
@@ -63,19 +63,19 @@ def belowAdjforTopAI(app,cube,index):
             right = app.boardlist[index+1]
             bottomRightColor = app.boardlist[index+8].color
             colorList = checkAtFour(cube, right.color,anotherbottomColor,
-                            bottomRightColor,belowColor,bottomColor,[])
+                            bottomRightColor,belowColor,bottomColor,colorList)
         elif index == 14:
             left = app.boardlist[index-1]
             bottomLeftColor = app.boardlist[index+5].color
             colorList = checkAtEight(cube, left.color,anotherbottomColor,
-                            bottomLeftColor,belowColor,bottomColor,[])
+                            bottomLeftColor,belowColor,bottomColor,colorList)
         else:
             bottomLeftColor = app.boardlist[index+5].color
             bottomRightColor = app.boardlist[index+8].color
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
-            anotherbottomColor,bottomRightColor, belowColor,bottomColor,[])
+            anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
         print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
@@ -89,23 +89,23 @@ def belowAdjforTopAI(app,cube,index):
             right = app.boardlist[index+1]
             bottomLeftColor = app.boardlist[index+6].color
             colorList = checkAtFour(cube, right.color,anotherbottomColor,
-                            bottomRightColor,belowColor,bottomColor,[])
+                            bottomRightColor,belowColor,bottomColor,colorList)
         elif index == 21:
             left = app.boardlist[index-1]
             bottomLeftColor = app.boardlist[index+6].color
             colorList = checkAtEight(cube, left.color,anotherbottomColor,
-                            bottomLeftColor,belowColor,bottomColor,[])
+                            bottomLeftColor,belowColor,bottomColor,colorList)
         else:
             bottomLeftColor = app.boardlist[index+6].color
             bottomRightColor = app.boardlist[index+9].color
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
             colorList=checkElse(cube, right.color, left.color, bottomLeftColor,
-            anotherbottomColor,bottomRightColor, belowColor,bottomColor,[])
+            anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
-    print(redColor, blueColor, greenColor, pinkColor)
+    # print(redColor, blueColor, greenColor, pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']
@@ -147,23 +147,23 @@ def aboveAdjforTopAI(app, cube, index):
             aboveColor = app.boardlist[index-5].color
             left = app.boardlist[index-1]
         if 6 <= index:
-            aboveLeftColor = app.boardlist[index-3].color
+            aboveLeftColor = app.boardlist[index-6].color
         if index == 4:
             colorList =aboveFarRight(cube,right.color,anotherAboveColor, 
-                                aboveRightColor,[])
+                                aboveRightColor,colorList)
         elif index == 5:
             colorList = checkAt5(cube,left.color,right.color, 
-                        aboveColor,anotherAboveColor,aboveRightColor,[])
+                        aboveColor,anotherAboveColor,aboveRightColor,colorList)
         elif index  == 6:
             colorList = checkAt6(cube,left.color,right.color,aboveColor,
                                 aboveRightColor,anotherAboveColor,
                                     aboveLeftColor,colorList)
         elif index == 7:
             colorList = checkAt7(cube,left.color,right.color,aboveColor,
-            anotherAboveColor,aboveLeftColor,[])
+            anotherAboveColor,aboveLeftColor,colorList)
         elif index == 8:
             colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
-                            aboveColor,[])
+                            aboveColor,colorList)
         else:
             colorList=aboveElse(cube,left.color,right.color,aboveColor,
                   aboveRightColor,aboveTwoColor,anotherAboveColor,
@@ -183,20 +183,20 @@ def aboveAdjforTopAI(app, cube, index):
         if 11 <= index:
             aboveLeftColor = app.boardlist[index-7].color
         if 10 <=index<=13:
-                    aboveTwoColor = app.boardlist[index-10].color
+            aboveTwoColor = app.boardlist[index-10].color
         if index ==9:
             colorList =aboveFarRight(cube,right.color,anotherAboveColor, 
-                                aboveRightColor,[])
+                                aboveRightColor,colorList)
         elif index ==10:
             colorList = aboveleftCol(cube,left.color,right.color, 
-        aboveTwoColor,aboveColor,anotherAboveColor,aboveRightColor,[])
+        aboveTwoColor,aboveColor,anotherAboveColor,aboveRightColor,colorList)
         elif index ==13:
             colorList = aboveRightCol(cube,left.color,right.color, 
                             aboveColor,aboveTwoColor,anotherAboveColor,
-                                            aboveLeftColor,[])
+                                            aboveLeftColor,colorList)
         elif index == 14:
             colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
-                            aboveColor,[])
+                            aboveColor,colorList)
         else:
             colorList=aboveElse(cube,left.color,right.color,aboveColor,
                   aboveRightColor,aboveTwoColor,anotherAboveColor,
@@ -219,18 +219,18 @@ def aboveAdjforTopAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-8].color
         if index ==15:
             colorList = aboveFarRight(cube,right.color,
-                    anotherAboveColor, aboveRightColor,[])
+                    anotherAboveColor, aboveRightColor,colorList)
         elif index == 16:
             colorList = aboveleftCol(cube,left.color,right.color, 
                             aboveTwoColor,aboveColor,anotherAboveColor,
-                            aboveRightColor,[])
+                            aboveRightColor,colorList)
         elif index ==20:
             colorList = aboveRightCol(cube,left.color,right.color, 
                             aboveColor,aboveTwoColor,anotherAboveColor,
-                                            aboveLeftColor,[])
+                                            aboveLeftColor,colorList)
         elif index == 21:
             colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
-                            aboveColor,[])
+                            aboveColor,colorList)
         else:
             colorList=aboveElse(cube,left.color,right.color,aboveColor,
                   aboveRightColor,aboveTwoColor,anotherAboveColor,
@@ -253,22 +253,22 @@ def aboveAdjforTopAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-9].color
         if index ==22:
             colorList = aboveFarRight(cube,right.color,
-                            anotherAboveColor, aboveRightColor,[])
+                            anotherAboveColor, aboveRightColor,colorList)
         elif index == 23:
             colorList = aboveleftCol(cube,left.color,right.color, 
                                 aboveTwoColor,aboveColor,anotherAboveColor,
-                                    aboveRightColor,[])
+                                    aboveRightColor,colorList)
         elif index  == 28:
             colorList = aboveRightCol(cube,left.color,right.color, 
                             aboveColor,aboveTwoColor,anotherAboveColor,
-                                            aboveLeftColor,[])
+                                            aboveLeftColor,colorList)
         elif index == 29:
             colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
-                            aboveColor,[])
+                            aboveColor,colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
-    print(redColor , blueColor,greenColor,pinkColor)
+    # print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']

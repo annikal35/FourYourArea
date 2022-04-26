@@ -18,6 +18,7 @@ class UserOne():
         self.greencir = 'green'
         self.pinkcir = 'pink'
         self.score = 0
+        
     def player1(self, canvas):
         canvas.create_text(265, 50, text='Player 1', fill='purple',
                            font = 'Helvetica 30 bold italic')

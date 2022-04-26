@@ -20,10 +20,12 @@ def belowAdjforBottomAI(app, cube, index):
         if index <=27:
             bottomRightColor = app.boardlist[index+9].color
         if 23 <= index <= 29:
-            bottomColor = app.boardlist[index+7]
+            bottomColor = app.boardlist[index+7].color
             left = app.boardlist[index-1]
         if 24 <= index:
             bottomLeftColor = app.boardlist[index+6].color
+        if 23 <= index <= 28:
+            belowTwoColor = app.boardlist[index+14].color
         if index == 22:
                 colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
                             bottomRightColor,[])
@@ -54,10 +56,12 @@ def belowAdjforBottomAI(app, cube, index):
         if index <=34:
             bottomRightColor = app.boardlist[index+8].color
         if 31 <= index <= 36:
-            bottomColor = app.boardlist[index+6]
+            bottomColor = app.boardlist[index+6].color
             left = app.boardlist[index-1]
         if 32 <= index:
-            bottomLeftColor = app.boardlist[index+6].color
+            bottomLeftColor = app.boardlist[index+5].color
+        if 31 <= index <=35:
+            belowTwoColor = app.boardlist[index+12].color
         if index == 30:
             colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
                         bottomRightColor,[])
@@ -88,10 +92,12 @@ def belowAdjforBottomAI(app, cube, index):
         if index <=40:
             bottomRightColor = app.boardlist[index+7].color
         if 38 <= index <= 42:
-            bottomColor = app.boardlist[index+5]
+            bottomColor = app.boardlist[index+5].color
             left = app.boardlist[index-1]
         if 39 <= index:
             bottomLeftColor = app.boardlist[index+4].color
+        if 38 <= index <= 41:
+            belowTwoColor=app.boardlist[index+10].color
         if index == 37:
             colorList =belowLeftCol(cube,right.color,anotherbottomColor, 
                         bottomRightColor,[])
@@ -122,7 +128,7 @@ def belowAdjforBottomAI(app, cube, index):
         if index <=45:
             bottomRightColor = app.boardlist[index+6].color
         if 44 <= index <= 47:
-            bottomColor = app.boardlist[index+4]
+            bottomColor = app.boardlist[index+4].color
             left = app.boardlist[index-1]
         if 45 <= index:
             bottomLeftColor = app.boardlist[index+3].color
@@ -152,7 +158,7 @@ def belowAdjforBottomAI(app, cube, index):
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
-    print(redColor , blueColor,greenColor,pinkColor)
+    # print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']
@@ -198,10 +204,10 @@ def aboveAdjforBottomAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-9].color
         if index == 30:
             colorList =aboveLeftColbelow(cube,right.color,aboveColor,
-                        anotherAboveColor,aboveRightColor,[])
+                        anotherAboveColor,aboveRightColor,aboveTwoColor,[])
         elif index == 36:
             colorList = aboveRightColbelow(cube,left.color,aboveColor,
-                        anotherAboveColor,aboveLeftColor,[])
+                        anotherAboveColor,aboveLeftColor,aboveTwoColor,[])
         else:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
@@ -224,10 +230,10 @@ def aboveAdjforBottomAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-8].color
         if index == 37:
             colorList =aboveLeftColbelow(cube,right.color,aboveColor,
-                        anotherAboveColor,aboveRightColor,[])
+                        anotherAboveColor,aboveRightColor,aboveTwoColor,[])
         elif index == 42:
             colorList = aboveRightColbelow(cube,left.color,aboveColor,
-                        anotherAboveColor,aboveLeftColor,[])
+                        anotherAboveColor,aboveLeftColor,aboveTwoColor,[])
         else:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
@@ -250,10 +256,10 @@ def aboveAdjforBottomAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-7].color
         if index == 43:
             colorList =aboveLeftColbelow(cube,right.color,aboveColor,
-                        anotherAboveColor,aboveRightColor,[])
+                        anotherAboveColor,aboveRightColor,aboveTwoColor,[])
         elif index == 47:
             colorList = aboveRightColbelow(cube,left.color,aboveColor,
-                        anotherAboveColor,aboveLeftColor,[])
+                        anotherAboveColor,aboveLeftColor,aboveTwoColor,[])
         else:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
@@ -276,10 +282,10 @@ def aboveAdjforBottomAI(app, cube, index):
             aboveLeftColor = app.boardlist[index-6].color
         if index == 48:
             colorList =aboveLeftColbelow(cube,right.color,aboveColor,
-                        anotherAboveColor,aboveRightColor,[])
+                        anotherAboveColor,aboveRightColor,aboveTwoColor,[])
         elif index == 51:
             colorList = aboveRightColbelow(cube,left.color,aboveColor,
-                        anotherAboveColor,aboveLeftColor,[])
+                        anotherAboveColor,aboveLeftColor,aboveTwoColor,[])
         else:
             right = app.boardlist[index+1]
             left = app.boardlist[index-1]
@@ -288,7 +294,7 @@ def aboveAdjforBottomAI(app, cube, index):
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
-    print(redColor , blueColor,greenColor,pinkColor)
+    # print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']
