@@ -12,20 +12,21 @@ class Board():
                               self.x+1.5*self.c,self.y+0.5*self.d, 
                               self.x+3*self.c,self.y+self.d, 
                               self.x+1.5*self.c,self.y+1.5*self.d,
-                              outline='black', fill=self.color)
+                              outline='black', width=3, fill=self.color)
         # left surface
         canvas.create_polygon(self.x, self.y, self.x,self.y+self.d, 
                               self.x+1.5*self.c,self.y+0.5*self.d, 
                               self.x+1.5*self.c,self.y-0.5*self.d, 
-                              outline='black', fill=self.color)
+                              outline='black',width=3, fill=self.color)
         # right surface
         canvas.create_polygon(self.x+1.5*self.c,self.y+0.5*self.d, 
                               self.x+1.5*self.c,self.y-0.5*self.d, 
                               self.x+3*self.c,self.y, 
                               self.x+3*self.c,self.y+self.d,
-                              outline='black',fill=self.color)
+                              outline='black',width=3,fill=self.color)
 
 def createBoard(app):
+    #draw a cube at each coordinate and save it in a list
     k = 10
     g = 9
     cubelist = []

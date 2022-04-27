@@ -14,7 +14,6 @@ def aboveFarRight(cube,rightColor,anotherAboveColor,aboveRightColor,colorList):
 
 def checkAt5(cube,leftColor,rightColor, aboveColor,
                   anotherAboveColor,aboveRightColor,colorList):
-   #  print(aboveColor, anotherAboveColor, aboveRightColor)
     if ((cube.color != 'white') and (leftColor!='white') and 
        (aboveColor!='white') and (anotherAboveColor!='white')):
         colorList = putColor(cube,leftColor,
@@ -31,7 +30,6 @@ def checkAt5(cube,leftColor,rightColor, aboveColor,
 
 def checkAt7(cube,leftColor,rightColor, aboveColor,
                   anotherAboveColor,aboveLeftColor,colorList):
-   # print(aboveColor, anotherAboveColor,aboveLeftColor)
    if ((cube.color != 'white') and (leftColor!='white') and 
       (aboveColor!='white') and (anotherAboveColor!='white')):
       colorList = putColor(cube,leftColor,
@@ -48,7 +46,6 @@ def checkAt7(cube,leftColor,rightColor, aboveColor,
 
 def checkAt6(cube,leftColor,rightColor, aboveColor,aboveRightColor,
                   anotherAboveColor,aboveLeftColor,colorList):
-   # print(aboveColor, aboveRightColor, anotherAboveColor,aboveLeftColor)
    if ((cube.color != 'white') and (leftColor!='white') and 
       (aboveColor!='white') and (aboveLeftColor!='white')):
       colorList = putColor(cube,leftColor,
@@ -117,14 +114,13 @@ def aboveFarLeft(cube, leftColor,aboveLeftColor,aboveColor,colorList):
 
 def aboveElse(cube,leftColor,rightColor, aboveColor,aboveRightColor,
                 aboveTwoColor,anotherAboveColor,aboveLeftColor,colorList):
-   # print(aboveColor, anotherAboveColor, aboveRightColor,aboveTwoColor,aboveLeftColor)
    if ((cube.color != 'white') and (leftColor!='white') and 
        (aboveColor!='white') and (aboveLeftColor!='white')):
         colorList = putColor(cube,leftColor,
                                     aboveColor,aboveLeftColor,colorList)
    if ((cube.color != 'white') and (leftColor!='white') and 
        (aboveColor!='white') and (anotherAboveColor!='white')):
-        colorList = putColor(cube,rightColor,
+        colorList = putColor(cube,leftColor,
                                     aboveColor,anotherAboveColor,colorList)
    if ((cube.color != 'white') and (rightColor!='white') and 
        (aboveColor!='white') and (anotherAboveColor!='white')):

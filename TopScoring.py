@@ -1,6 +1,9 @@
 from checkBelow import *
 from checkAbove import *
 
+# function that checks the availiable group of four cube areas below the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def belowAdjforTop(app,cube,index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -76,14 +79,12 @@ def belowAdjforTop(app,cube,index):
             left = app.boardlist2[index-1]
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
             anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
-        print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
     if 15 <= index <=21:
         belowColor = app.boardlist2[index+15].color
         bottomColor = app.boardlist2[index+7].color
-        bottomRightColor = app.boardlist2[index+9].color
         anotherbottomColor = app.boardlist2[index+8].color
         if index == 15:
             right = app.boardlist2[index+1]
@@ -105,7 +106,6 @@ def belowAdjforTop(app,cube,index):
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
-    print(redColor, blueColor, greenColor, pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status2 == 'Player 1':
             return app.player1.placingCard['1']
@@ -132,6 +132,9 @@ def belowAdjforTop(app,cube,index):
     else:
         return 0
 
+# function that checks the availiable group of four cube areas above the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def aboveAdjforTop(app, cube, index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -247,7 +250,7 @@ def aboveAdjforTop(app, cube, index):
         if 23 <= index <=28:
             aboveTwoColor = app.boardlist2[index-14].color
         if 23 <= index <= 29:
-            aboveColor = app.boardlist2[index-7].color
+            aboveColor = app.boardlist2[index-8].color
             left = app.boardlist2[index-1]
         if 24 <= index:
             aboveLeftColor = app.boardlist2[index-9].color

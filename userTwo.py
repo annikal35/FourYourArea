@@ -19,11 +19,8 @@ class UserTwo():
         self.r2 = 22.5
         self.score = 0
 
-    def player2(self, canvas):
-        canvas.create_text(1300, 50, text='Player 2', fill='purple',
-                           font = 'Helvetica 30 bold italic')
-
     def frontCard(self,canvas):
+        # creates the front of a card
         canvas.create_rectangle(1150,100,1310,350,fill=self.cardColor, 
                                 outline='black', width = 5)
         canvas.create_oval(1190-self.r2, 140-self.r2, 1190+self.r2, 140+self.r2, 
@@ -45,6 +42,7 @@ class UserTwo():
         
     
     def backCard(self, canvas):
+        # creates the back of a card
         canvas.create_rectangle(1340,100,1500,350, outline='black',
                                 fill =self.cardColor, width=5)
         canvas.create_text(1380,120, text='Picking', fill='black',
@@ -87,6 +85,7 @@ class UserTwo():
                            font = 'Times 20 bold')
 
     def currentRocks(self, canvas):
+        # creates the current rocks
         canvas.create_text(1140,410, text='Your Current\n Rocks', fill='purple',
                            font = 'Helvetica 16 bold italic')
         canvas.create_oval(1100-self.r, 480-self.r, 1100+self.r, 480+self.r, 

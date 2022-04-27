@@ -34,9 +34,9 @@ class User():
         self.score = 0
         self.currSameColor = 0
         self.coloredCube = []
-        # self.i = random.randint(0,20)
 
     def frontCard(self,canvas):
+        # creates the front of a card
         canvas.create_rectangle(750,450,950,750,fill='white', 
                                 outline='black', width = 5)
         canvas.create_oval(810-self.r, 500-self.r, 810+self.r, 500+self.r, 
@@ -58,6 +58,7 @@ class User():
         
 
     def backCard(self, canvas):
+        # creates the back of a card
         canvas.create_rectangle(980,450,1180,750, outline='black',
                                 fill = 'white', width=5)
         canvas.create_text(1025,470, text='Picking', fill='black',
@@ -99,6 +100,7 @@ class User():
         canvas.create_text(1120,710, text=f'4: {fourthPlacing}', fill='black',
                            font = 'Times 20 bold')
     def currentScore(self, canvas):
+        # creates the current rocks
         canvas.create_text(1350,50, text='Your Current Rocks', fill='purple',
                            font = 'Helvetica 20 bold italic')
         canvas.create_oval(1300-self.r, 110-self.r, 1300+self.r, 110+self.r, 

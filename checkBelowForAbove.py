@@ -37,27 +37,28 @@ def aboveRightColbelow(cube,leftColor,aboveColor,anotherAboveColor,
                             aboveColor,anotherAboveColor,[])
     return colorList
 
-def aboveElse(cube, leftColor, rightColor, anotheraboveColor,
-          aboveTwoColor,aboveColor,aboveLeftColor,aboveRightColor,colorList):
+def aboveElse(cube, leftColor, rightColor, aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,colorList):
     if ((cube.color != 'white') and (leftColor!='white') and 
     (aboveColor!='white') and (aboveLeftColor!='white')):
         colorList = putColor(cube, leftColor, 
                             aboveColor, aboveLeftColor,[])
     if ((cube.color != 'white') and (aboveTwoColor!='white') and 
-    (aboveColor!='white') and (anotheraboveColor!='white')):
+    (aboveColor!='white') and (anotherAboveColor!='white')):
         colorList = putColor(cube, aboveTwoColor, 
-                            aboveColor, anotheraboveColor,[])
+                            aboveColor, anotherAboveColor,[])
     if ((cube.color != 'white') and (rightColor!='white') and 
-    (anotheraboveColor!='white') and (aboveColor!='white')):
+    (anotherAboveColor!='white') and (aboveColor!='white')):
         colorList = putColor(cube, rightColor, 
-                            anotheraboveColor, aboveColor,[])
+                            anotherAboveColor, aboveColor,[])
     if ((cube.color != 'white') and (rightColor!='white') and 
-    (anotheraboveColor!='white') and (aboveRightColor!='white')):
+    (anotherAboveColor!='white') and (aboveRightColor!='white')):
         colorList = putColor(cube, rightColor, 
-                            anotheraboveColor, aboveRightColor,[])
+                            anotherAboveColor, aboveRightColor,[])
     if ((cube.color != 'white') and (leftColor!='white') and 
-    (aboveColor!='white') and (anotheraboveColor!='white')):
+    (aboveColor!='white') and (anotherAboveColor!='white')):
         colorList = putColor(cube, leftColor, 
-                            aboveColor, anotheraboveColor,[])
+                            aboveColor, anotherAboveColor,[])
     return colorList
 

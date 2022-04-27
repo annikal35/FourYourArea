@@ -8,6 +8,9 @@ def addColor(colorList, redColor, blueColor, greenColor, pinkColor):
     pinkColor += colorList.count("pink")
     return (redColor, blueColor, greenColor, pinkColor)
 
+# function that checks the availiable group of four cube areas below the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def belowAdjforBottom(app, cube, index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -184,6 +187,9 @@ def belowAdjforBottom(app, cube, index):
     else:
         return 0
 
+# function that checks the availiable group of four cube areas above the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def aboveAdjforBottom(app, cube, index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -210,8 +216,9 @@ def aboveAdjforBottom(app, cube, index):
     else:
         right = app.boardlist2[index+1]
         left = app.boardlist2[index-1]
-        colorList =aboveElse(cube, left.color, right.color, anotherAboveColor,
-          aboveTwoColor,aboveColor,aboveLeftColor,aboveRightColor,[])
+        colorList =aboveElse(cube, left.color, right.color, aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,[])
     redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
@@ -236,8 +243,9 @@ def aboveAdjforBottom(app, cube, index):
         else:
             right = app.boardlist2[index+1]
             left = app.boardlist2[index-1]
-            colorList =aboveElse(cube, left.color, right.color,anotherAboveColor,
-          aboveTwoColor,aboveColor,aboveLeftColor,aboveRightColor,[])
+            colorList =aboveElse(cube, left.color, right.color, aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,[])
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
@@ -262,8 +270,9 @@ def aboveAdjforBottom(app, cube, index):
     else:
         right = app.boardlist2[index+1]
         left = app.boardlist2[index-1]
-        colorList =aboveElse(cube, left.color, right.color,anotherAboveColor,
-          aboveTwoColor,aboveColor,aboveLeftColor,aboveRightColor,[])
+        colorList =aboveElse(cube, left.color, right.color, aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,[])
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
@@ -288,8 +297,9 @@ def aboveAdjforBottom(app, cube, index):
         else:
             right = app.boardlist2[index+1]
             left = app.boardlist2[index-1]
-            colorList =aboveElse(cube, left.color,right.color,anotherAboveColor,
-          aboveTwoColor,aboveColor,aboveLeftColor,aboveRightColor,[])
+            colorList =aboveElse(cube, left.color, right.color, aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,[])
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 

@@ -1,6 +1,9 @@
 from checkBelow import *
 from checkAbove import *
 
+# function that checks the availiable group of four cube areas below the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def belowAdjforTopAI(app,cube,index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -51,7 +54,6 @@ def belowAdjforTopAI(app,cube,index):
             bottomLeftColor = app.boardlist[index+4].color
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
             anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
-        print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
@@ -76,14 +78,12 @@ def belowAdjforTopAI(app,cube,index):
             left = app.boardlist[index-1]
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
             anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
-        print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
     if 15 <= index <=21:
         belowColor = app.boardlist[index+15].color
         bottomColor = app.boardlist[index+7].color
-        bottomRightColor = app.boardlist[index+9].color
         anotherbottomColor = app.boardlist[index+8].color
         if index == 15:
             right = app.boardlist[index+1]
@@ -105,7 +105,6 @@ def belowAdjforTopAI(app,cube,index):
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
 
-    # print(redColor, blueColor, greenColor, pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']
@@ -132,6 +131,9 @@ def belowAdjforTopAI(app,cube,index):
     else:
         return 0
 
+# function that checks the availiable group of four cube areas above the given 
+# index, get the colors and return the points based on the number of same 
+# colors in a group
 def aboveAdjforTopAI(app, cube, index):
     redColor = blueColor = greenColor = pinkColor = 0
     colorList = []
@@ -247,7 +249,7 @@ def aboveAdjforTopAI(app, cube, index):
         if 23 <= index <=28:
             aboveTwoColor = app.boardlist[index-14].color
         if 23 <= index <= 29:
-            aboveColor = app.boardlist[index-7].color
+            aboveColor = app.boardlist[index-8].color
             left = app.boardlist[index-1]
         if 24 <= index:
             aboveLeftColor = app.boardlist[index-9].color
@@ -265,10 +267,13 @@ def aboveAdjforTopAI(app, cube, index):
         elif index == 29:
             colorList = aboveFarLeft(cube,left.color,aboveLeftColor,
                             aboveColor,colorList)
+        else:
+            colorList=aboveElse(cube,left.color,right.color,aboveColor,
+                  aboveRightColor,aboveTwoColor,anotherAboveColor,
+                  aboveLeftColor,colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
-    # print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status == 'User':
             return app.user.placingCard['1']
