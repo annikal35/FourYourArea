@@ -142,30 +142,37 @@ def mode1_mousePressed(app, event):
             if gameover(app):
                 app.isGameOver = True
             else:
-                rockNum = int(app.getUserInput('How many rocks do you want?'))
-                if rockNum >3 or rockNum <1:
-                    app.showMessage('Please pick 1~3 rocks at a time!')
-                elif rockNum == 1:
-                    colorList = ['blue', 'red','green','pink']
-                    currCol = random.choice(colorList)
-                    if currCol == 'blue':
-                        app.user.blue +=1
-                    if currCol == 'red':
-                        app.user.red +=1
-                    if currCol == 'green':
-                        app.user.green +=1
-                    if currCol == 'pink':
-                        app.user.pink +=1
+                rockNum = app.getUserInput('How many rocks do you want?')
+                if rockNum not in '0123456789':
+                    app.showMessage('Please put proper numbers')
                 else:
-                    currBlue = random.randint(0, rockNum)
-                    app.user.blue += currBlue
-                    currRed = random.randint(0,rockNum-currBlue)
-                    app.user.red += currRed
-                    currGreen = random.randint(0,rockNum-currBlue-currRed)
-                    app.user.green += currGreen
-                    currPink = random.randint(0,rockNum-currBlue-\
-                        currRed-currGreen)
-                    app.user.pink += currPink
+                    rockNum = int(rockNum)
+                    if rockNum >3 or rockNum <1:
+                        app.showMessage('Please pick 1~3 rocks at a time!')
+                    elif rockNum == 1:
+                        colorList = ['blue', 'red','green','pink']
+                        currCol = random.choice(colorList)
+                        if currCol == 'blue':
+                            app.user.blue +=1
+                        if currCol == 'red':
+                            app.user.red +=1
+                        if currCol == 'green':
+                            app.user.green +=1
+                        if currCol == 'pink':
+                            app.user.pink +=1
+                    else:
+                        currBlue = random.randint(0, rockNum)
+                        app.user.blue += currBlue
+                        currRed = random.randint(0,rockNum-currBlue)
+                        app.user.red += currRed
+                        currGreen = random.randint(0,rockNum-currBlue-currRed)
+                        app.user.green += currGreen
+                        if app.user.blue == app.user.red ==app.user.green==0:
+                            currPink = rockNum
+                        else:
+                            currPink = random.randint(0,rockNum-currBlue-\
+                            currRed-currGreen)
+                        app.user.pink += currPink
         if ((app.user.blue > app.user.numBlue)or(app.user.red>app.user.numRed)
         or(app.user.green>app.user.numGreen)or(app.user.pink>app.user.numPink)):
             app.showMessage("You went over the limit! Press stop to turn")
