@@ -52,7 +52,7 @@ def checkAt6(cube,leftColor,rightColor, aboveColor,aboveRightColor,
                                  aboveColor,aboveLeftColor,colorList)
    if ((cube.color != 'white') and (leftColor!='white') and 
       (aboveColor!='white') and (anotherAboveColor!='white')):
-      colorList = putColor(cube,rightColor,
+      colorList = putColor(cube,leftColor,
                                  aboveColor,anotherAboveColor,colorList)
    if ((cube.color != 'white') and (rightColor!='white') and 
       (aboveColor!='white') and (anotherAboveColor!='white')):
@@ -92,7 +92,7 @@ def aboveRightCol(cube,leftColor,rightColor, aboveColor,aboveTwoColor,
                                     aboveColor,anotherAboveColor,colorList)
     if ((cube.color != 'white') and (leftColor!='white') and 
        (aboveColor!='white') and (aboveLeftColor!='white')):
-        colorList = putColor(cube,rightColor,
+        colorList = putColor(cube,leftColor,
                                     aboveColor,aboveLeftColor,colorList)
     if ((cube.color != 'white') and (rightColor!='white') and 
        (aboveColor!='white') and (anotherAboveColor!='white')):

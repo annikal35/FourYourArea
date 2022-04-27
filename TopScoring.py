@@ -54,7 +54,6 @@ def belowAdjforTop(app,cube,index):
             bottomLeftColor = app.boardlist2[index+4].color
             colorList = checkElse(cube, right.color, left.color,bottomLeftColor,
             anotherbottomColor,bottomRightColor, belowColor,bottomColor,colorList)
-        print(colorList)
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
@@ -275,7 +274,6 @@ def aboveAdjforTop(app, cube, index):
         redColor, blueColor, greenColor, pinkColor = addColor(colorList, 
                                     redColor, blueColor, greenColor, pinkColor)
     
-    print(redColor , blueColor,greenColor,pinkColor)
     if redColor == blueColor == greenColor == pinkColor == 1:
         if app.status2 == 'Player 1':
             return app.player1.placingCard['1']

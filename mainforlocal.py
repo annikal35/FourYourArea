@@ -50,7 +50,7 @@ def getRandomPickingScore():
 def mode2_keyPressed(app,event):
     if event.key == 'r':
         app.round2 = 1
-        app.isGameOver2 = True
+        app.isGameOver2 = False
         app.player1.score = app.player2.score = 0
         app.player1.numBlue=app.player1.numRed=\
             app.player1.numGreen=app.player1.numPink=0
@@ -62,6 +62,16 @@ def mode2_keyPressed(app,event):
         app.player2.placingCard = {'1':0,'2':0,'3':0,'4':0}
         app.player1.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
         app.player2.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
+        app.player2.cardColor = 'white'
+        app.player2.bluecir = 'blue'
+        app.player2.redcir = 'red'
+        app.player2.greencir = 'green'
+        app.player2.pinkcir = 'pink'
+        app.player1.cardColor = 'white'
+        app.player1.bluecir = 'blue'
+        app.player1.redcir = 'red'
+        app.player1.greencir = 'green'
+        app.player1.pinkcir = 'pink'
         for cube in app.boardlist2:
             cube.color = 'white'
     elif event.key == 'w':
@@ -73,7 +83,7 @@ def mode2_mousePressed(app, event):
         #going back to intro resets the game
         app.mode = 'intro'
         app.round2 = 1
-        app.isGameOver2 = True
+        app.isGameOver2 = False
         app.player1.score = app.player2.score = 0
         app.player1.numBlue=app.player1.numRed=\
             app.player1.numGreen=app.player1.numPink=0
@@ -85,6 +95,16 @@ def mode2_mousePressed(app, event):
         app.player2.placingCard = {'1':0,'2':0,'3':0,'4':0}
         app.player1.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
         app.player2.pickingCard = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0}
+        app.player2.cardColor = 'white'
+        app.player2.bluecir = 'blue'
+        app.player2.redcir = 'red'
+        app.player2.greencir = 'green'
+        app.player2.pinkcir = 'pink'
+        app.player1.cardColor = 'white'
+        app.player1.bluecir = 'blue'
+        app.player1.redcir = 'red'
+        app.player1.greencir = 'green'
+        app.player1.pinkcir = 'pink'
         for cube in app.boardlist2:
             cube.color = 'white'
     
@@ -121,6 +141,7 @@ def mode2_mousePressed(app, event):
             app.round2 +=1
 
     if app.status2 == 'Player 1':
+        app.player2.blue=app.player2.red=app.player2.green=app.player2.pink=0
         if (176 <= event.x<= 424) and (350<=event.y<=650):
             app.player1.placingCard = getRandomPlacingScore()
             app.player1.pickingCard = getRandomPickingScore()
@@ -334,13 +355,14 @@ def mode2_mousePressed(app, event):
                     else:
                         app.showMessage('Please place within given color!')
     else:
+        app.player1.blue=app.player1.red=app.player1.green=app.player1.pink=0
         if (1176 <= event.x<= 1424) and (350<=event.y<=650):
             app.player2.placingCard = getRandomPlacingScore()
             app.player2.pickingCard = getRandomPickingScore()
-            app.player2.numBlue = random.randint(0,5)
-            app.player2.numRed = random.randint(0,5)
-            app.player2.numGreen = random.randint(0,5)
-            app.player2.numPink = random.randint(0,5)
+            app.player2.numBlue = random.randint(1,4)
+            app.player2.numRed = random.randint(1,4)
+            app.player2.numGreen = random.randint(1,4)
+            app.player2.numPink = random.randint(1,4)
 
         if (1350 <= event.x <= 1530) and (398 <= event.y<=602):
             rockNum = int(app.getUserInput('How many rocks do you want?'))

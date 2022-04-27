@@ -84,7 +84,7 @@ def appStarted(app):
 def mode1_keyPressed(app,event):
     if event.key == 'r':
         app.round = 1
-        app.isGameOver = True
+        app.isGameOver = False
         app.user.score = app.AI.score = 0
         app.user.numBlue=app.user.numRed=app.user.numGreen=app.user.numPink=0
         app.AI.numBlue=app.AI.numRed=app.AI.numGreen=app.AI.numPink=0
@@ -103,7 +103,10 @@ def mode1_keyPressed(app,event):
 
 def mode1_mousePressed(app, event):
     if 1250 <= event.x <= 1500 and 680 <= event.y <= 750:
-        app.status = 'AI'
+        if app.round == 4 or gameover(app):
+            app.isGameOver = True
+        else:
+            app.status = 'AI'
     
     #going back to intro resets the game
     if 0<=event.x<=100 and 0<=event.y<=100:
@@ -123,8 +126,10 @@ def mode1_mousePressed(app, event):
             cube.color = 'white'
 
     if app.status == 'User':
+        if gameover(app):
+                app.isGameOver = True
         app.AI.blue = app.AI.red = app.AI.green = app.AI.pink = 0
-        if (726 <= event.x and event.x<= 974) and (80<=event.y and event.y<=380):
+        if (726 <= event.x and event.x<= 974)and (80<=event.y and event.y<=380):
             app.user.placingCard = getRandomPlacingScore()
             app.user.pickingCard = getRandomPickingScore()
             app.user.numBlue = random.randint(1,4)
@@ -134,20 +139,35 @@ def mode1_mousePressed(app, event):
 
         if (1010 <= event.x and event.x<= 1190) and (128 <= event.y and
                                                         event.y<=332):
-            rockNum = int(app.getUserInput('How many rocks do you want?'))
-            if rockNum >3 or rockNum <1:
-                app.showMessage('Please pick 1~3 rocks at a time!')
+            if gameover(app):
+                app.isGameOver = True
             else:
-                currBlue = random.randint(0, rockNum)
-                app.user.blue += currBlue
-                currRed = random.randint(0,rockNum-currBlue)
-                app.user.red += currRed
-                currGreen = random.randint(0,rockNum-currBlue-currRed)
-                app.user.green += currGreen
-                currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
-                app.user.pink += currPink
-        if ((app.user.blue > app.user.numBlue) or(app.user.red>app.user.numRed)
-         or(app.user.green>app.user.numGreen)or(app.user.pink>app.user.numPink)):
+                rockNum = int(app.getUserInput('How many rocks do you want?'))
+                if rockNum >3 or rockNum <1:
+                    app.showMessage('Please pick 1~3 rocks at a time!')
+                elif rockNum == 1:
+                    colorList = ['blue', 'red','green','pink']
+                    currCol = random.choice(colorList)
+                    if currCol == 'blue':
+                        app.user.blue +=1
+                    if currCol == 'red':
+                        app.user.red +=1
+                    if currCol == 'green':
+                        app.user.green +=1
+                    if currCol == 'pink':
+                        app.user.pink +=1
+                else:
+                    currBlue = random.randint(0, rockNum)
+                    app.user.blue += currBlue
+                    currRed = random.randint(0,rockNum-currBlue)
+                    app.user.red += currRed
+                    currGreen = random.randint(0,rockNum-currBlue-currRed)
+                    app.user.green += currGreen
+                    currPink = random.randint(0,rockNum-currBlue-\
+                        currRed-currGreen)
+                    app.user.pink += currPink
+        if ((app.user.blue > app.user.numBlue)or(app.user.red>app.user.numRed)
+        or(app.user.green>app.user.numGreen)or(app.user.pink>app.user.numPink)):
             app.showMessage("You went over the limit! Press stop to turn")
 
         if (600<=event.x<=720) and (40<=event.y<=140):
@@ -195,7 +215,7 @@ def mode1_mousePressed(app, event):
                             currCube.color = 'blue'
                             app.user.blue -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) >= 4:
+                            if len(app.coloredCube) >= 4 or app.round >= 2:
                                 index = app.boardlist.index(currCube)
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
@@ -231,7 +251,7 @@ def mode1_mousePressed(app, event):
                             currCube.color = 'red'
                             app.user.red -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) >= 4:
+                            if len(app.coloredCube) >= 4 or app.round >= 2:
                                 index = app.boardlist.index(currCube)
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
@@ -266,7 +286,7 @@ def mode1_mousePressed(app, event):
                             currCube.color = 'green'
                             app.user.green -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) >= 4:
+                            if len(app.coloredCube) >= 4 or app.round >= 2:
                                 index = app.boardlist.index(currCube)
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
@@ -301,7 +321,7 @@ def mode1_mousePressed(app, event):
                             currCube.color = 'pink'
                             app.user.pink -=1
                             app.coloredCube.append(currCube.color)
-                            if len(app.coloredCube) >= 4:
+                            if len(app.coloredCube) >= 4 or app.round >= 2:
                                 index = app.boardlist.index(currCube)
                                 if 0 <= index <= 3:
                                     app.user.score += belowAdjforTopAI(app,
@@ -342,25 +362,24 @@ def mode1_mousePressed(app, event):
             app.AI.numGreen = random.randint(1,4)
             app.AI.numPink = random.randint(1,4)
         app.AI.rockNumAI += random.randint(1,3)
-        currBlueAI = random.randint(0, app.AI.rockNumAI)
-        if app.AI.blue < app.AI.numBlue:
+        currBlueAI = random.randint(1, app.AI.rockNumAI)
+        if app.AI.blue+currBlueAI <= app.AI.numBlue:
             app.AI.blue += currBlueAI
         currRedAI = random.randint(0,app.AI.rockNumAI-currBlueAI)
-        if app.AI.red < app.AI.numRed:
+        if app.AI.red+currRedAI <= app.AI.numRed:
             app.AI.red += currRedAI
         currGreenAI = random.randint(0,app.AI.rockNumAI-currBlueAI-currRedAI)
-        if app.AI.green < app.AI.numGreen:
+        if app.AI.green+currGreenAI <= app.AI.numGreen:
             app.AI.green += currGreenAI
         limit = app.AI.rockNumAI-currBlueAI-currRedAI-currGreenAI
         currPinkAI = random.randint(0,limit)
-        if app.AI.pink < app.AI.numPink:
+        if app.AI.pink+currPinkAI <= app.AI.numPink:
             app.AI.pink += currPinkAI
-        if ((app.AI.blue == 0 and app.AI.red == 0 and app.AI.green==0 and
-         app.AI.pink==0)):
-            while ((app.AI.blue > 0 and app.AI.red > 0 and app.AI.green>0 and
-         app.AI.pink>0) and (app.AI.blue <= app.AI.numBlue) and
-         (app.AI.red<=app.AI.numRed)and(app.AI.green <= app.AI.numGreen) and
-          (app.AI.pink <= app.AI.numPink)):
+        if (((app.AI.blue == 0) and (app.AI.red == 0) and (app.AI.green==0) and
+         (app.AI.pink==0))):
+            while ((app.AI.blue <= app.AI.numBlue) and
+        (app.AI.red<=app.AI.numRed)and(app.AI.green <= app.AI.numGreen) and
+        (app.AI.pink <= app.AI.numPink)):
                 app.AI.rockNumAI += random.randint(1,3)
                 currBlueAI = random.randint(0, app.AI.rockNumAI)
                 app.AI.blue += currBlueAI
@@ -370,9 +389,11 @@ def mode1_mousePressed(app, event):
                     currRedAI = random.randint(0,app.AI.rockNumAI-currBlueAI)
                 app.AI.red += currRedAI
                 if app.AI.red == 0 and app.AI.blue == 0:
-                    currGreenAI = random.randint(1,app.AI.rockNumAI-currBlueAI-currRedAI)
+                    currGreenAI = random.randint(1,app.AI.rockNumAI-\
+                        currBlueAI-currRedAI)
                 else:
-                    currGreenAI = random.randint(0,app.AI.rockNumAI-currBlueAI-currRedAI)
+                    currGreenAI = random.randint(0,app.AI.rockNumAI-\
+                        currBlueAI-currRedAI)
                 app.AI.green += currGreenAI
                 limit = app.AI.rockNumAI-currBlueAI-currRedAI-currGreenAI
                 if app.AI.green == 0 and app.AI.red == 0 and app.AI.blue == 0:
@@ -380,12 +401,16 @@ def mode1_mousePressed(app, event):
                 else:
                     currPinkAI = random.randint(0,limit)
                 app.AI.pink += currPinkAI
-        app.AI.score += minimax(app.boardlist,None,1,True,app)
-        if app.round == 4 or gameover(app):
+        if gameover(app):
             app.isGameOver = True
         else:
-            app.round += 1
-            app.status = 'User'
+            app.AI.score += minimax(app.boardlist,None,1,True,app)
+            if app.round == 4 or gameover(app):
+                app.isGameOver = True
+            else:
+                app.round += 1
+                app.status = 'User'
+        
 
 
 def isLegal(app, currCube):
@@ -413,14 +438,14 @@ def isWin(currCube, userScore,app,color):
             app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
         if 4 <= index <= 21:
-            app.user.score += belowAdjforTopAI(app,
+            app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
-            app.user.score += aboveAdjforTopAI(app,
+            app.AI.score += aboveAdjforTopAI(app,
                 currCube,index)
         if 22 <= index <= 29:
-            app.user.score += belowAdjforBottomAI(app,
+            app.AI.score += belowAdjforBottomAI(app,
                             currCube, index)
-            app.user.score += aboveAdjforTopAI(app,
+            app.AI.score += aboveAdjforTopAI(app,
                 currCube,index)
         if 30 <= index <= 47:
             app.AI.score +=belowAdjforBottomAI(app,
@@ -440,14 +465,14 @@ def isLost(currCube, userScore,app,color):
             app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
         if 4 <= index <= 21:
-            app.user.score += belowAdjforTopAI(app,
+            app.AI.score += belowAdjforTopAI(app,
                             currCube,index)
-            app.user.score += aboveAdjforTopAI(app,
+            app.AI.score += aboveAdjforTopAI(app,
                 currCube,index)
         if 22 <= index <= 29:
-            app.user.score += belowAdjforBottomAI(app,
+            app.AI.score += belowAdjforBottomAI(app,
                             currCube, index)
-            app.user.score += aboveAdjforTopAI(app,
+            app.AI.score += aboveAdjforTopAI(app,
                 currCube,index)
         if 30 <= index <= 47:
             app.AI.score +=belowAdjforBottomAI(app,
@@ -477,9 +502,12 @@ def putColor(app):
     return currColor
 
 def minimax(state,currCube,depth, maxPlayer,app):
+# code reference(not directly copied but used this webiste to study the 
+# algorithm) : https://github.com/Cledersonbc/tic-tac-toe-minimax
     if (depth == 0) or gameover(app):
         score = evaluate(currCube,app)
         return score
+
     if maxPlayer:
         maxValue = float('-inf')
         for move in app.boardlist: 

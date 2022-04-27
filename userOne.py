@@ -19,6 +19,10 @@ class UserOne():
         self.pinkcir = 'pink'
         self.score = 0
 
+    def player1(self, canvas):
+        canvas.create_text(265, 50, text='Player 1', fill='purple',
+                           font = 'Helvetica 30 bold italic')
+                           
     def frontCard(self,canvas):
         # creates the front of a card
         canvas.create_rectangle(70,100,230,350,fill=self.cardColor, 

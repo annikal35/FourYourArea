@@ -19,6 +19,9 @@ class UserTwo():
         self.r2 = 22.5
         self.score = 0
 
+    def player2(self, canvas):
+        canvas.create_text(1300, 50, text='Player 2', fill='purple',
+                           font = 'Helvetica 30 bold italic')
     def frontCard(self,canvas):
         # creates the front of a card
         canvas.create_rectangle(1150,100,1310,350,fill=self.cardColor, 
