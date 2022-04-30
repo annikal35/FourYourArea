@@ -151,18 +151,37 @@ def mode2_mousePressed(app, event):
             app.player1.numPink = random.randint(1,4)
 
         if (350 <= event.x <= 530) and (378 <= event.y<=602):
-            rockNum = int(app.getUserInput('How many rocks do you want?'))
-            if rockNum >3 or rockNum <1:
-                app.showMessage('Please pick 1~3 rocks at a time!')
+            rockNum = app.getUserInput('How many rocks do you want?')
+            if rockNum not in '0123456789':
+                    app.showMessage('Please put proper numbers')
             else:
-                currBlue = random.randint(0, rockNum)
-                app.player1.blue += currBlue
-                currRed = random.randint(0,rockNum-currBlue)
-                app.player1.red += currRed
-                currGreen = random.randint(0,rockNum-currBlue-currRed)
-                app.player1.green += currGreen
-                currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
-                app.player1.pink += currPink
+                rockNum = int(rockNum)
+                if rockNum >3 or rockNum <1:
+                    app.showMessage('Please pick 1~3 rocks at a time!')
+                elif rockNum == 1:
+                    colorList = ['blue', 'red','green','pink']
+                    currCol = random.choice(colorList)
+                    if currCol == 'blue':
+                        app.user.blue +=1
+                    if currCol == 'red':
+                        app.user.red +=1
+                    if currCol == 'green':
+                        app.user.green +=1
+                    if currCol == 'pink':
+                        app.user.pink +=1
+                else:
+                    currBlue = random.randint(0, rockNum)
+                    app.player1.blue += currBlue
+                    currRed = random.randint(0,rockNum-currBlue)
+                    app.player1.red += currRed
+                    currGreen = random.randint(0,rockNum-currBlue-currRed)
+                    app.player1.green += currGreen
+                    if app.player1.blue==app.player1.red==app.player1.green==0:
+                            currPink = rockNum
+                    else:
+                        currPink = random.randint(0,rockNum-currBlue-\
+                        currRed-currGreen)
+                    app.player1.pink += currPink
 
             if ((app.player1.blue > app.player1.numBlue)or
                (app.player1.red>app.player1.numRed)or
@@ -365,18 +384,38 @@ def mode2_mousePressed(app, event):
             app.player2.numPink = random.randint(1,4)
 
         if (1350 <= event.x <= 1530) and (398 <= event.y<=602):
-            rockNum = int(app.getUserInput('How many rocks do you want?'))
-            if rockNum >3 or rockNum <1:
-                app.showMessage('Please pick 1~3 rocks at a time!')
+            rockNum = app.getUserInput('How many rocks do you want?')
+            if rockNum not in '0123456789':
+                    app.showMessage('Please put proper numbers')
             else:
-                currBlue = random.randint(0, rockNum)
-                app.player2.blue += currBlue
-                currRed = random.randint(0,rockNum-currBlue)
-                app.player2.red += currRed
-                currGreen = random.randint(0,rockNum-currBlue-currRed)
-                app.player2.green += currGreen
-                currPink = random.randint(0,rockNum-currBlue-currRed-currGreen)
-                app.player2.pink += currPink
+                rockNum = int(rockNum)
+                if rockNum >3 or rockNum <1:
+                    app.showMessage('Please pick 1~3 rocks at a time!')
+                elif rockNum == 1:
+                    colorList = ['blue', 'red','green','pink']
+                    currCol = random.choice(colorList)
+                    if currCol == 'blue':
+                        app.user.blue +=1
+                    if currCol == 'red':
+                        app.user.red +=1
+                    if currCol == 'green':
+                        app.user.green +=1
+                    if currCol == 'pink':
+                        app.user.pink +=1
+                else:
+                    currBlue = random.randint(0, rockNum)
+                    app.player2.blue += currBlue
+                    currRed = random.randint(0,rockNum-currBlue)
+                    app.player2.red += currRed
+                    currGreen = random.randint(0,rockNum-currBlue-currRed)
+                    app.player2.green += currGreen
+                    if app.player2.blue==app.player2.red==app.player2.green==0:
+                            currPink = rockNum
+                    else:
+                        currPink = random.randint(0,rockNum-currBlue-\
+                        currRed-currGreen)
+                    app.player2.pink += currPink
+                    
             if ((app.player2.blue > app.player2.numBlue)or
                (app.player2.red>app.player2.numRed)or
                (app.player2.green>app.player2.numGreen)or
